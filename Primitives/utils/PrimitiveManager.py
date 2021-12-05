@@ -8,7 +8,7 @@ primitives() - lists all primitives currently in manager
 update() - combines primitive commands into single commands and then sends to motors
 stop() - stops the primitive manager
 
-currently uses pypot primitive class.
+*** currently uses pypot primitive class. ***
 need to either rework and implement said class, or create new structure.
 """
 import logging
@@ -18,20 +18,26 @@ from collections import defaultdict
 from functools import partial
 from threading import Lock
 
-# from ..utils.stoppablethread import StoppableLoopThread
+from Primitives.utils.stoppablethread import StoppableLoopThread
 
 
 logger = logging.getLogger(__name__)
 
 
-class PrimitiveManager():  # originally uses param: StoppableLoopThread
+class PrimitiveManager(StoppableLoopThread):
 
-    def __init__(self):
+    def __init__(self, motors, freq=50, filter=partial(numpy.mean, axis=0)):
+        """
+        :param motors: list of real motors used by the attached primitives
+        :type motors: list of :class:`~pypot.dynamixel.motor.DxlMotor`
+        :param int freq: update frequency
+        :param func filter: function used to combine the different request (default mean)
+        """
 
-        # start a stobbableLoopThread
+        StoppableLoopThread.__init__(self, freq)
 
         self._prim = []
-        # self._motors = motors
+        self._motors = motors  # need to define a list of used motors on the robot
         self._filter = filter  # look into built in filter function to understand better
 
         self.syncing = Lock()
@@ -56,10 +62,12 @@ class PrimitiveManager():  # originally uses param: StoppableLoopThread
             for m in self._motors:  # _motors can be recreated as a motor grouping system in KoalbyHumanoid.robot
                 to_set = defaultdict(list)
 
+                # need to rework this to not use getattr(p.robot, m.name) <see comment on line 62>
                 for p in self._prim:
                     for key, val in getattr(p.robot, m.name)._to_set.items():
                         to_set[key].append(val)
 
+                # LED checking is likely unnecessary but will keep for now
                 for key, val in to_set.items():
                     if key == 'led':
                         colors = set(val)
@@ -80,4 +88,4 @@ class PrimitiveManager():  # originally uses param: StoppableLoopThread
         for p in self.primitives[:]:
             p.stop()
 
-        # StoppableLoopThread.stop(self)
+        StoppableLoopThread.stop(self)
