@@ -19,12 +19,12 @@ class ArduinoSerial:
 
     def send_command(self, command):
         ser = self.initialze_buffer()
-        ser.write(b"Hello from Raspberry Pi!\n")
+        ser.write(command + "\n").encode('utf-8'))
 
     def read_command(self):
         ser = self.initialze_buffer()
         line = ser.readline().decode('utf-8').rstrip()
-        print(line)
+        return line
 
     def initialze_buffer(self):
         ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
