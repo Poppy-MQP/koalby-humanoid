@@ -12,14 +12,15 @@ if __name__ == '__main__':
             print(line)
 '''
 
+
 class ArduinoSerial:
 
     def __init__(self):
-
+        pass
 
     def send_command(self, command):
         ser = self.initialze_buffer()
-        ser.write(command + "\n").encode('utf-8'))
+        ser.write(command + "\n").encode('utf-8')
 
     def read_command(self):
         ser = self.initialze_buffer()
@@ -30,7 +31,3 @@ class ArduinoSerial:
         ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
         ser.reset_input_buffer()
         return ser
-
-
-
-
