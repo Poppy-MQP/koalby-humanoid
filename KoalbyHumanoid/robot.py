@@ -9,6 +9,8 @@ Possible functionalities:
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
 from Kinematics.CopiedIK import IKChain
+import config
+
 
 
 class Robot(object):
@@ -31,3 +33,18 @@ class Robot(object):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
         cmdArr = [100]
         ArduinoSerial.send_command(cmdArr)
+
+    def initializeMotors(self):
+        for motorConfig in config.motors:
+            motor = Motor(motorConfig[0], motorConfig[1])
+            self.motors.append(motor)
+        self.l_arm = self.initalizeMotorGroup(0)
+        self.r_arm = self.initalizeMotorGroup(1)
+        self.torso = self.initalizeMotorGroup(2)
+
+    def initializeMotorGroup(self, index):
+        group = list()
+        for motorConfig in config.Motorgroup[index]:
+            motor = Motor(motorConfig[0], motorConfig[1])
+            group.append(motor)
+        return group

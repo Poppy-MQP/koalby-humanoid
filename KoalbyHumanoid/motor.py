@@ -1,4 +1,5 @@
 import ArduinoSerial
+import config
 
 """The Motor class hold all information for an abstract motor on the physical robot. It is used to interface with the
 arduino which directly controls the motors"""
