@@ -17,10 +17,10 @@ class Robot(object):
 
     def __init__(self):
         self.r_shoulder_x = Motor(0x01, [0, 100])  # This is made up. Change later
-        self.motors = list()
-        self.l_arm = list()
-        self.r_arm = list()
-        self.torso = list()
+        self.motors = self.motorsInit()
+        self.l_arm = self.motorGroupIniti(0)
+        self.r_arm = self.motorGroupIniti(1)
+        self.torso = self.motorGroupIniti(2)
 
         # Change these later
         self.l_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_arm, passiv=self.torso,
@@ -34,17 +34,16 @@ class Robot(object):
         cmdArr = [100]
         ArduinoSerial.send_command(cmdArr)
 
-    def initializeMotors(self):
+    def motorsInit(self):
+        motors = list()
         for motorConfig in config.motors:
             motor = Motor(motorConfig[0], motorConfig[1])
-            self.motors.append(motor)
-        self.l_arm = self.initalizeMotorGroup(0)
-        self.r_arm = self.initalizeMotorGroup(1)
-        self.torso = self.initalizeMotorGroup(2)
+            motors.append(motor)
+        return motors
 
-    def initializeMotorGroup(self, index):
+    def motorGroupIniti(self, groupNumber):
         group = list()
-        for motorConfig in config.Motorgroup[index]:
+        for motorConfig in config.Motorgroup[groupNumber]:
             motor = Motor(motorConfig[0], motorConfig[1])
             group.append(motor)
         return group
