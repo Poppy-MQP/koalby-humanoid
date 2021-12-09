@@ -16,11 +16,11 @@ import config
 class Robot(object):
 
     def __init__(self):
-        self.r_shoulder_x = Motor(0x01, [0, 100])  # This is made up. Change later
+        self.r_shoulder_x = Motor(config.motors[3][0], config.motors[3][1])  # This is made up. Change later
         self.motors = self.motorsInit()
-        self.l_arm = self.motorGroupIniti(0)
-        self.r_arm = self.motorGroupIniti(1)
-        self.torso = self.motorGroupIniti(2)
+        self.l_arm = self.motorGroupsInit(0)
+        self.r_arm = self.motorGroupsInit(1)
+        self.torso = self.motorGroupsInit(2)
 
         # Change these later
         self.l_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_arm, passiv=self.torso,
@@ -41,7 +41,7 @@ class Robot(object):
             motors.append(motor)
         return motors
 
-    def motorGroupIniti(self, groupNumber):
+    def motorGroupsInit(self, groupNumber):
         group = list()
         for motorConfig in config.Motorgroup[groupNumber]:
             motor = Motor(motorConfig[0], motorConfig[1])
