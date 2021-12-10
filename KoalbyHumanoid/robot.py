@@ -14,7 +14,6 @@ from Kinematics.CopiedIK import IKChain
 class Robot(object):
 
     def __init__(self):
-        self.r_shoulder_x = Motor(0x01, [0, 100])  # This is made up. Change later
         self.motors = list()
         self.l_arm = list()
         self.r_arm = list()
@@ -24,7 +23,7 @@ class Robot(object):
         self.l_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_arm, passiv=self.torso,
                                                        tip=[0, 0.18, 0])
         self.r_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.r_arm, passiv=self.torso,
-                                                       tip=[0, 0.18, 0], reversed_motors=[self.r_shoulder_x])
+                                                       tip=[0, 0.18, 0])
 
 
     def shutdown(self):

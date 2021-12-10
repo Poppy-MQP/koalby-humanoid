@@ -31,12 +31,7 @@ class IKChain(Chain):
         chain.motors = [getattr(poppy, l.name) for l in chain.links[1:-1]]
 
         for m, l in zip(chain.motors, chain.links[1:-1]):
-            # Force an access to angle limit to retrieve real values
-            # This is quite an ugly fix and should be handled better
-            m.angle_limit
-
-            bounds = m.__dict__['lower_limit'], m.__dict__['upper_limit']
-            l.bounds = tuple(map(rad2deg, bounds))
+            l.bounds = tuple(map(rad2deg, m.angle_limit))
 
         chain._reversed = array([(-1 if m in reversed_motors else 1) for m in motors])
 
@@ -45,7 +40,7 @@ class IKChain(Chain):
     @property
     def joints_position(self):
         """ Returns the joints position of all motors in the chain (in degrees). """
-        return [m.present_position for m in self.motors]
+        return [m.getPosition() for m in self.motors]
 
     # Transformation matrix M:
     # [[ Rx.x, Ry.x, Rz.x, T.x ],      R = M[:3][:3] is the rotation matrix.
@@ -145,7 +140,8 @@ class IKChain(Chain):
 
         last = self.motors[-1]
         for m, pos in list(zip(self.motors, joints)):
-            m.goto_position(pos, duration, wait=False if m != last else wait)
+            m.setPositionTime(pos, duration)
+            # m.goto_position(pos, duration, wait=False if m != last else wait)
 
     def convert_to_ik_angles(self, joints):
         """ Convert from poppy representation to IKPY internal representation. """

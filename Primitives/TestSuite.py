@@ -15,20 +15,21 @@ print(motor.getPosition())
 def arm_follow_test():
     koalby = Robot()
     for m in koalby.motors:
-        m.goto_position(0, 2)
+        m.setPositionTime(0, 2)
+        # m.goto_position(0, 2)
 
     # Left arm is compliant, right arm is active
     for m in koalby.l_arm:
-        m.compliant = False
+        m.torqueOnOff(0)
 
     for m in koalby.r_arm:
-        m.compliant = False
+        m.torqueOnOff(1)
 
     # The torso itself must not be compliant
     for m in koalby.torso:
-        m.compliant = False
+        m.torqueOnOff(1)
 
-    target_delta = 3
+    target_delta = [0, 0.2, 0]
     try:
         while True:
             follow_hand(koalby, target_delta)
