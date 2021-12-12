@@ -8,7 +8,7 @@ Possible functionalities:
 """
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
-from Kinematics.CopiedIK import IKChain
+from Kinematics.IK import IKChain
 
 
 class Robot(object):
