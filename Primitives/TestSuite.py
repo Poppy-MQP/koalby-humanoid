@@ -4,10 +4,10 @@ from KoalbyHumanoid.robot import Robot
 
 """A simple test suite to check pi -> arduino communication and motor control"""
 
-motor = Motor(0x01, -140)
+motor = Motor(0x0B, [-3, 140])
 
 print(motor.getPosition())
-motor.setPositionPos(-90)
+motor.setPositionPos(2)
 print(motor.getPosition())
 
 
