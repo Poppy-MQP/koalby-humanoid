@@ -29,5 +29,5 @@ class ArduinoSerial(object):
 
     def read_command(self):
         #   ser2 = serial.Serial('/dev/tty.usbmodem14201', 115200, timeout=1)
-        line = self.ser.readline()
+        line = self.ser.readline().decode('utf-8').strip()
         return line

@@ -8,15 +8,15 @@ from KoalbyHumanoid.robot import Robot
 
 '''
 NEXT STEPS:
-Move arduino_serial init from motor class to robot class.
-Pass arduino serial from robot into motor as param.
-Refactor command enums on arduino to avoid using 0 for init cmd and to allow for future additons to command list
 '''
 
-motor = Motor(0, [-3, 140])
-time.sleep(10)
+robot = Robot()
+motor = Motor(4, [-3, 140], robot.arduino_serial)
+
+time.sleep(3)
 print(motor.getPosition())
 motor.setPositionPos(50)
+time.sleep(3)
 print(motor.getPosition())
 
 
