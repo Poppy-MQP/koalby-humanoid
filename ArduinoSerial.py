@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import time
+
 import serial
 
 '''
@@ -13,20 +15,19 @@ if __name__ == '__main__':
 '''
 
 
-def send_command(command):
-    ser = initialize_buffer()
-    ser.write(str.encode(command))
+class ArduinoSerial(object):
 
+    def __init__(self):
+        self.ser = serial.Serial("COM3", 115200, timeout=1)
+        self.ser.reset_input_buffer()
+        time.sleep(3)  # serial buffer needs 3 second delay before reading or writing
+                       # time.sleep sets serial to 0, DO NOT use 0 as a command on arduino side
 
-def read_command():
-    ser = initialize_buffer()
-#    ser2 = serial.Serial('/dev/tty.usbmodem14201', 115200, timeout=1)
-    line = ser.readline().decode('utf-8').rstrip()
- #   line2 = ser2.readline().decode('utf-8').rstrip()
-    return line
+    def send_command(self, command):
+        message = str.encode(command + '\r\n')
+        self.ser.write(message)
 
-
-def initialize_buffer():
-    ser = serial.Serial('/dev/tty.usbserial-1410', 115200, timeout=1)
-    ser.reset_input_buffer()
-    return ser
+    def read_command(self):
+        #   ser2 = serial.Serial('/dev/tty.usbmodem14201', 115200, timeout=1)
+        line = self.ser.readline().decode('utf-8').strip()
+        return line

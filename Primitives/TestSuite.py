@@ -1,13 +1,22 @@
 import time
+
+import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
 from KoalbyHumanoid.robot import Robot
 
 """A simple test suite to check pi -> arduino communication and motor control"""
 
-motor = Motor(0x0B, [-3, 140])
+'''
+NEXT STEPS:
+'''
 
+robot = Robot()
+motor = Motor(4, [-3, 140], robot.arduino_serial)
+
+time.sleep(3)
 print(motor.getPosition())
-motor.setPositionPos(2)
+motor.setPositionPos(50)
+time.sleep(3)
 print(motor.getPosition())
 
 
