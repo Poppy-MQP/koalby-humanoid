@@ -2,14 +2,14 @@
 To be used for robot instantiation.
 Possible functionalities:
     - call robot URDF body layout file and call kinematic and IK methods
-    - set up config file and motor groupings
+    - set up config file and motor groupingsx
     - handle sensor layout set up
     - handle full robot-wide commands such as "shutdown"
 """
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
 from Kinematics.CopiedIK import IKChain
-import config
+#import config
 
 
 
