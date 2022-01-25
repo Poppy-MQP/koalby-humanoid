@@ -1,7 +1,9 @@
 from ikpy.chain import Chain
+from ikpy.urdf import URDF
 from ikpy.utils.geometry import rpy_matrix
 from ikpy.urdf.URDF import get_chain_from_joints
 from numpy import deg2rad, rad2deg, array, arctan2, sqrt
+import os
 
 
 class IKChain(Chain):
@@ -19,13 +21,19 @@ class IKChain(Chain):
         :param list tip: [x, y, z] translation of the tip of the chain (in meters)
         :param list reversed_motors: list of motors that should be manually reversed (due to a problem in the URDF?)
         """
-        # koalbyURDF = 'C:\Users\raymo\PycharmProjects\koalby-humanoid\Kinematics\Koalby_Humanoid.urdf'
-        # koalbyURDF = 'koalby-humanoid/Kinematics/Koalby_Humanoid.urdf'
-        koalbyURDF = 'Koalby_Humanoid.urdf'
+        # This works koalbyURDF = 'C:/Users/raymo/PycharmProjects/koalby-humanoid/Kinematics/Koalby_Humanoid.urdf'
+        script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
+        rel_path = "Koalby_Humanoid.urdf"
+        koalbyURDF = os.path.join(script_dir, rel_path)
 
         chain_elements = get_chain_from_joints(koalbyURDF, [m.name for m in motors])
 
         activ = [False] + [m not in passiv for m in motors] + [True]
+        print(activ)
+
+        links = URDF.get_urdf_parameters(koalbyURDF, base_elements=chain_elements, last_link_vector=tip,
+                                         base_element_type="link", symbolic=True)
+        print(links)
 
         chain = cls.from_urdf_file(koalbyURDF,
                                    base_elements=chain_elements,

@@ -20,8 +20,8 @@ class Robot(object):
         # self.arduino_serial.send_command('1')  # This initializes the robot with all the initial motor positions
 
         self.motors = self.motorsInit()
-        self.l_arm = self.motorGroupsInit(0)
-        self.r_arm = self.motorGroupsInit(1)
+        self.l_arm = self.motorGroupsInit(1)
+        self.r_arm = self.motorGroupsInit(0)
         self.torso = self.motorGroupsInit(2)
 
         # Change these later
