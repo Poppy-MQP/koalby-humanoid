@@ -19,11 +19,15 @@ class IKChain(Chain):
         :param list tip: [x, y, z] translation of the tip of the chain (in meters)
         :param list reversed_motors: list of motors that should be manually reversed (due to a problem in the URDF?)
         """
-        chain_elements = get_chain_from_joints('Koalby_Humanoid.URDF', [m.name for m in motors])
+        # koalbyURDF = 'C:\Users\raymo\PycharmProjects\koalby-humanoid\Kinematics\Koalby_Humanoid.urdf'
+        # koalbyURDF = 'koalby-humanoid/Kinematics/Koalby_Humanoid.urdf'
+        koalbyURDF = 'Koalby_Humanoid.urdf'
+
+        chain_elements = get_chain_from_joints(koalbyURDF, [m.name for m in motors])
 
         activ = [False] + [m not in passiv for m in motors] + [True]
 
-        chain = cls.from_urdf_file('Koalby_Humanoid.URDF',
+        chain = cls.from_urdf_file(koalbyURDF,
                                    base_elements=chain_elements,
                                    last_link_vector=tip,
                                    active_links_mask=activ)

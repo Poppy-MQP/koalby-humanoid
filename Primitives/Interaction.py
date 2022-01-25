@@ -1,3 +1,5 @@
+import time
+import KoalbyHumanoid.robot as robot
 """
 Interaction Primitive:
 *** may break up into multiple primitives ***
@@ -13,3 +15,35 @@ Interaction Primitive:
         allows user to make a motion with the arms, the robot will then copy this motion in a loop until stopped
         example: user moves arm in a waving pattern, robot will then loop this wave until told to stop
 """
+
+
+# Ian Code. Temporary putting here
+def arm_follow_test():
+    koalby = robot.Robot()
+
+    # Left arm is compliant, right arm is active
+    for m in koalby.l_arm:
+        m.torqueOnOff(0)
+
+    for m in koalby.r_arm:
+        m.torqueOnOff(1)
+
+    # The torso itself must not be compliant
+    for m in koalby.torso:
+        m.torqueOnOff(1)
+
+    target_delta = [0, 0.2, 0]
+    try:
+        while True:
+            follow_hand(koalby, target_delta)
+            time.sleep(1)
+
+    # Close properly the object when finished
+    except KeyboardInterrupt:
+        koalby.close()
+
+
+def follow_hand(koalby, delta):
+    """Tell the left hand to follow the right hand"""
+    left_arm_position = koalby.r_arm_chain.end_effector + delta
+    koalby.l_arm_chain.goto(left_arm_position, 0.5, wait=True)

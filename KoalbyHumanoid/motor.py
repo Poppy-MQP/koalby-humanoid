@@ -8,10 +8,11 @@ arduino which directly controls the motors"""
 
 class Motor(object):
 
-    def __init__(self, _motorID, angleLimit, serial):
+    def __init__(self, _motorID, angleLimit, name, serial):
         self.motorID = _motorID
         self.angle_limit = angleLimit
         # self.present_position = self.getPosition()
+        self.name = name
 
         self.arduino_serial = serial
 
@@ -40,6 +41,6 @@ class Motor(object):
         self.arduino_serial.send_command(idBoolArr)
 
     def compliantOnOff(self, toggle):
-        """turns the torque of a motor on or off based on a 1 or 0 input and sends this to the arduino"""
+        """turns the compliancy of a motor on or off based on a 1 or 0 input and sends this to the arduino"""
         idBoolArr = [21, self.motorID, toggle]
         self.arduino_serial.send_command(idBoolArr)

@@ -15,8 +15,9 @@ import KoalbyHumanoid.config as config
 class Robot(object):
 
     def __init__(self):
-        self.arduino_serial = ArduinoSerial.ArduinoSerial()
-        self.arduino_serial.send_command('1')
+        self.arduino_serial = [] # Fake assignment for testing without robot
+        # self.arduino_serial = ArduinoSerial.ArduinoSerial()
+        # self.arduino_serial.send_command('1')  # This initializes the robot with all the initial motor positions
 
         self.motors = self.motorsInit()
         self.l_arm = self.motorGroupsInit(0)
@@ -37,13 +38,13 @@ class Robot(object):
     def motorsInit(self):
         motors = list()
         for motorConfig in config.motors:
-            motor = Motor(motorConfig[0], motorConfig[1], self.arduino_serial)
+            motor = Motor(motorConfig[0], motorConfig[1], motorConfig[3], self.arduino_serial)
             motors.append(motor)
         return motors
 
     def motorGroupsInit(self, groupNumber):
         group = list()
-        for motorConfig in config.motorGroups[groupNumber]:
-            motor = Motor(motorConfig[0], motorConfig[1], self.arduino_serial)
+        for row in config.motorGroups[groupNumber][1]:
+            motor = Motor(row[0], row[1], row[3], self.arduino_serial)
             group.append(motor)
         return group
