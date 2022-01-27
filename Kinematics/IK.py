@@ -5,6 +5,9 @@ from ikpy.urdf.URDF import get_chain_from_joints
 from numpy import deg2rad, rad2deg, array, arctan2, sqrt
 import os
 
+import xml.etree.ElementTree as ET
+import itertools
+
 
 class IKChain(Chain):
     """ Motors chain used for forward and inverse kinematics.
@@ -34,8 +37,6 @@ class IKChain(Chain):
                                    base_elements=chain_elements,
                                    last_link_vector=tip,
                                    active_links_mask=activ)
-
-        print(chain)
 
         chain.motors = [getattr(poppy, l.name) for l in chain.links[1:-1]]
 

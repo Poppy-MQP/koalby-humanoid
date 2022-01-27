@@ -15,19 +15,22 @@ import KoalbyHumanoid.config as config
 class Robot(object):
 
     def __init__(self):
-        self.arduino_serial = [] # Fake assignment for testing without robot
-        # self.arduino_serial = ArduinoSerial.ArduinoSerial()
-        # self.arduino_serial.send_command('1')  # This initializes the robot with all the initial motor positions
+        # self.arduino_serial = [] # Fake assignment for testing without robot.
+        # If it reaches 'AttributeError: 'list' object has no attribute 'send_command'' Then test on robot
+        self.arduino_serial = ArduinoSerial.ArduinoSerial()
+        self.arduino_serial.send_command('1')  # This initializes the robot with all the initial motor positions
 
         self.motors = self.motorsInit()
-        self.l_arm = self.motorGroupsInit(1)
-        self.r_arm = self.motorGroupsInit(0)
-        self.torso = self.motorGroupsInit(2)
+        self.motorGroupsInit()
 
-        # Change these later
+        # Change the tip later if needed
         self.l_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_arm, passiv=self.torso,
                                                        tip=[0, 0.18, 0])
         self.r_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.r_arm, passiv=self.torso,
+                                                       tip=[0, 0.18, 0])
+        self.l_leg_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_leg, passiv=self.torso,
+                                                       tip=[0, 0.18, 0])
+        self.r_leg_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.r_leg, passiv=self.torso,
                                                        tip=[0, 0.18, 0])
 
     def shutdown(self):
@@ -43,9 +46,12 @@ class Robot(object):
             motors.append(motor)
         return motors
 
-    def motorGroupsInit(self, groupNumber):
-        group = list()
-        for row in config.motorGroups[groupNumber][1]:
-            motor = Motor(row[0], row[1], row[3], self.arduino_serial)
-            group.append(motor)
-        return group
+    def motorGroupsInit(self):
+        i = 0
+        for row in config.motorGroups:
+            group = list()
+            for row2 in row[1]:
+                motor = Motor(row2[0], row2[1], row2[3], self.arduino_serial)
+                group.append(motor)
+            setattr(Robot, config.motorGroups[i][0], group)
+            i += 1
