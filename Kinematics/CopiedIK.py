@@ -1,3 +1,5 @@
+import sys, os
+sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 from ikpy.chain import Chain
 from ikpy.utils.geometry import rpy_matrix
 from ikpy.urdf.URDF import get_chain_from_joints
