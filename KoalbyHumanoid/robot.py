@@ -12,7 +12,7 @@ import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
 from Kinematics.CopiedIK import IKChain
 import KoalbyHumanoid.config as config
-
+from Primitives import KoalbyPrimitive
 
 
 class Robot(object):
@@ -33,9 +33,13 @@ class Robot(object):
         self.r_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.r_arm, passiv=self.torso,
                                                        tip=[0, 0.18, 0])'''
 
+        primitivies = {}
+
+
     def shutdown(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
         cmdArr = [100]
+
         self.arduino_serial.send_command(cmdArr)
 
     def motorsInit(self):
@@ -51,3 +55,10 @@ class Robot(object):
             motor = Motor(motorConfig[0], motorConfig[1], self.arduino_serial)
             group.append(motor)
         return group
+
+
+
+    def PrimitiveManager(self):
+
+        pass
+
