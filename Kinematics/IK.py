@@ -29,16 +29,13 @@ class IKChain(Chain):
         chain_elements = get_chain_from_joints(koalbyURDF, [m.name for m in motors])
 
         activ = [False] + [m not in passiv for m in motors] + [True]
-        print(activ)
-
-        links = URDF.get_urdf_parameters(koalbyURDF, base_elements=chain_elements, last_link_vector=tip,
-                                         base_element_type="link", symbolic=True)
-        print(links)
 
         chain = cls.from_urdf_file(koalbyURDF,
                                    base_elements=chain_elements,
                                    last_link_vector=tip,
                                    active_links_mask=activ)
+
+        print(chain)
 
         chain.motors = [getattr(poppy, l.name) for l in chain.links[1:-1]]
 

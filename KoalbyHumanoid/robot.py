@@ -39,6 +39,7 @@ class Robot(object):
         motors = list()
         for motorConfig in config.motors:
             motor = Motor(motorConfig[0], motorConfig[1], motorConfig[3], self.arduino_serial)
+            setattr(Robot, motorConfig[3], motor)
             motors.append(motor)
         return motors
 
