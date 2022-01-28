@@ -33,8 +33,6 @@ class Robot(object):
         self.r_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.r_arm, passiv=self.torso,
                                                        tip=[0, 0.18, 0])'''
 
-        primitivies = {}
-
 
     def shutdown(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
@@ -58,7 +56,7 @@ class Robot(object):
 
 
 
-    def PrimitiveManager(self):
+    def PrimitiveManagerUpdate(self):
 
         pass
 

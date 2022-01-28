@@ -5,15 +5,13 @@
 # also a remove primitive function
 # timing method
 import threading
-
+from KoalbyHumanoid import config
 
 class Primitive:
 
     def __init__(self):
-        motors = {}
-        sensors = {}
-
-        pass
+        motors = []
+        sensors = []
 
     def attachPrimitive(self):
         pass
@@ -21,9 +19,7 @@ class Primitive:
     def removePrimitive(self):
         pass
 
-    def timer(self):
-        timer = threading.Timer(60.0, self.callback)
-        timer.start()  # after 60 seconds, 'callback' will be called
+    def timer(self, duration):
+        timer = threading.Timer(duration, self.removePrimitive)
+        timer.start()  # after 60 seconds, 'removePrimitive' will be called
 
-    def callback(self):
-        pass
