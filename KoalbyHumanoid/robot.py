@@ -6,10 +6,13 @@ Possible functionalities:
     - handle sensor layout set up
     - handle full robot-wide commands such as "shutdown"
 """
+import sys, os
+sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
 from Kinematics.IK import IKChain
 import KoalbyHumanoid.config as config
+
 
 
 class Robot(object):

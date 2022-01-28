@@ -1,3 +1,6 @@
+
+import sys, os
+sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import time
 
 import ArduinoSerial
