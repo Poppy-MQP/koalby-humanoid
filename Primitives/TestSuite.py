@@ -11,7 +11,6 @@ import Primitives.Interaction as Interaction
 NEXT STEPS:
 '''
 
-
 Interaction.arm_follow_test()
 '''
 robot = Robot()
