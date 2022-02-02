@@ -15,9 +15,10 @@ NEXT STEPS:
 '''
 
 Interaction.arm_follow_test()
-'''
-robot = Robot()
-motor = Motor(4, [-3, 140], "dummy_name", robot.arduino_serial)
+
+'''robot = Robot()
+robot.shutdown()'''
+'''motor = Motor(4, [-3, 140], "dummy_name", robot.arduino_serial)
 
 time.sleep(3)
 print(motor.getPosition())

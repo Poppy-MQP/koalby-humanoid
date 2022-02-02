@@ -159,8 +159,9 @@ class IKChain(Chain):
         """ Convert from poppy representation to IKPY internal representation. """
         if len(joints) != len(self.motors):
             raise ValueError('Incompatible data, len(joints) should be {}!'.format(len(self.motors)))
-
-        raw_joints = [(j + m.offset) * (1 if m.direct else -1) for j, m in zip(joints, self.motors)]
+        #print("Final Check", joints)
+        raw_joints = [int(float(j)) for j in joints]
+        # raw_joints = [(j + m.offset) * (1 if m.direct else -1) for j, m in zip(joints, self.motors)]
 
         raw_joints *= self._reversed
 
@@ -174,5 +175,7 @@ class IKChain(Chain):
         joints = [rad2deg(j) for j in joints[1:-1]]
         joints *= self._reversed
 
-        return [(j * (1 if m.direct else -1)) - m.offset
+        '''return [(j * (1 if m.direct else -1)) - m.offset
+                        for j, m in zip(joints, self.motors)]'''
+        return [(j * 1) - 0
                 for j, m in zip(joints, self.motors)]

@@ -7,6 +7,7 @@ Possible functionalities:
     - handle full robot-wide commands such as "shutdown"
 """
 import sys, os
+
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
@@ -14,11 +15,10 @@ from Kinematics.IK import IKChain
 import KoalbyHumanoid.config as config
 
 
-
 class Robot(object):
 
     def __init__(self):
-        #self.arduino_serial = [] # Fake assignment for testing without robot.
+        # self.arduino_serial = [] # Fake assignment for testing without robot.
         # If it reaches 'AttributeError: 'list' object has no attribute 'send_command'' Then test on robot
         self.arduino_serial = ArduinoSerial.ArduinoSerial()
         self.arduino_serial.send_command('1')  # This initializes the robot with all the initial motor positions
@@ -38,7 +38,7 @@ class Robot(object):
 
     def shutdown(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
-        cmdArr = [100]
+        cmdArr = '100'
         self.arduino_serial.send_command(cmdArr)
 
     def motorsInit(self):

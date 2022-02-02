@@ -19,21 +19,21 @@ Motor 13 - Herkluex, Abdomen
 '''Array of all motors for Koalby.'''
 motors = [
     # Right Arm
-    [0x0F, [0, 0], 'Herk', 'r_shoulder_y'],
-    [0x03, [0, 0], 'Herk', 'r_shoulder_x'],
-    [0x02, [0, 0], 'Herk', 'r_arm_z'],
-    [0x01, [0,0], 'Herk', 'r_elbow_y'],
+    [3, [0, 0], 'Herk', 'r_shoulder_y'],
+    [2, [0, 0], 'Herk', 'r_shoulder_x'],
+    [1, [0, 0], 'Herk', 'r_arm_z'],
+    [0, [0,0], 'Herk', 'r_elbow_y'],
 
     # Left Arm
-    [0x07, [0,0], 'Herk', 'l_shoulder_y'],
-    [0x06, [0,0], 'Herk', 'l_shoulder_x'],
-    [0x0A, [0,0], 'Herk', 'l_arm_z'],
-    [0x0B, [0, 0], 'Herk', 'l_elbow_y'],
+    [7, [0,0], 'Herk', 'l_shoulder_y'],
+    [6, [0,0], 'Herk', 'l_shoulder_x'],
+    [5, [0,0], 'Herk', 'l_arm_z'],
+    [4, [0, 0], 'Herk', 'l_elbow_y'],
 
     # Torso
-    [0x12, [0, 0], 'Herk', 'abs_y'],
-    [0x11, [0, 0], 'Herk', 'abs_x'],
-    [0x13, [0,0], 'Herk', 'abs_z'],
+    [9, [0, 0], 'Herk', 'abs_y'],
+    [8, [0, 0], 'Herk', 'abs_x'],
+    [10, [0,0], 'Herk', 'abs_z'],
     [0x12, [0,0], 'Herk', 'bust_y'],
     [0x11, [0,0], 'Herk', 'bust_x'],
 
