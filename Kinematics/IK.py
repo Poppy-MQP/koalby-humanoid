@@ -6,6 +6,7 @@ from ikpy.utils.geometry import rpy_matrix
 from ikpy.urdf.URDF import get_chain_from_joints
 from numpy import deg2rad, rad2deg, array, arctan2, sqrt
 import os
+import numpy as np
 
 import xml.etree.ElementTree as ET
 import itertools
@@ -148,7 +149,11 @@ class IKChain(Chain):
                                     orientation_mode=orientation_mode,
                                     **kwargs)
 
+        print("Q ", q)
+
         joints = self.convert_from_ik_angles(q)
+
+        print("Joints ", joints)
 
         last = self.motors[-1]
         for m, pos in list(zip(self.motors, joints)):
@@ -179,3 +184,52 @@ class IKChain(Chain):
                         for j, m in zip(joints, self.motors)]'''
         return [(j * 1) - 0
                 for j, m in zip(joints, self.motors)]
+
+    def inverse_kinematics(self, target_position=None, target_orientation=None, orientation_mode=None, **kwargs):
+        """
+
+        Parameters
+        ----------
+        target_position: np.ndarray
+            Vector of shape (3,): the target point
+        target_orientation: np.ndarray
+            Vector of shape (3,): the target orientation
+        orientation_mode: str
+            Orientation to target. Choices:
+            * None: No orientation
+            * "X": Target the X axis
+            * "Y": Target the Y axis
+            * "Z": Target the Z axis
+            * "all": Target the entire frame (e.g. the three axes) (not currently supported)
+        kwargs
+
+        Returns
+        -------
+        list:
+            The list of the positions of each joint according to the target. Note : Inactive joints are in the list.
+        """
+        frame_target = np.eye(4)
+
+        # Compute orientation
+        if orientation_mode is not None:
+            if orientation_mode == "X":
+                frame_target[:3, 0] = target_orientation
+            elif orientation_mode == "Y":
+                frame_target[:3, 1] = target_orientation
+            elif orientation_mode == "Z":
+                frame_target[:3, 2] = target_orientation
+            elif orientation_mode == "all":
+                frame_target[:3, :3] = target_orientation
+            else:
+                raise ValueError("Unknown orientation mode: {}".format(orientation_mode))
+
+        # Compute target
+        if target_position is None:
+            no_position = True
+        else:
+            no_position = False
+            frame_target[:3, 3] = target_position
+
+        print("Frame", frame_target)
+
+        return self.inverse_kinematics_frame(target=frame_target, orientation_mode=orientation_mode, no_position=no_position, **kwargs)

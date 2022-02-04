@@ -14,7 +14,8 @@ import Primitives.Interaction as Interaction
 NEXT STEPS:
 '''
 
-Interaction.arm_follow_test()
+# Interaction.arm_follow_test()
+Interaction.ArmMirror()
 
 '''robot = Robot()
 robot.shutdown()'''
