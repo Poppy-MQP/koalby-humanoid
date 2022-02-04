@@ -7,19 +7,20 @@
 import threading
 from KoalbyHumanoid import config
 
+
 class Primitive:
 
-    def __init__(self):
-        motors = []
-        sensors = []
-
-    def attachPrimitive(self):
-        pass
-
-    def removePrimitive(self):
-        pass
+    def __init__(self, motorPositionsDict, sensors, isActive):
+        self.motorPositionsDict = motorPositionsDict #list
+        self.sensors = sensors #list
+        self.isActive = isActive #boolean
 
     def timer(self, duration):
         timer = threading.Timer(duration, self.removePrimitive)
-        timer.start()  # after 60 seconds, 'removePrimitive' will be called
+        timer.start()  # after 'duration' seconds, 'removePrimitive' will be called
 
+    def attachPrimitive(self):
+            pass
+
+    def removePrimitive(self):
+            pass

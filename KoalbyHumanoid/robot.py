@@ -7,6 +7,9 @@ Possible functionalities:
     - handle full robot-wide commands such as "shutdown"
 """
 import sys, os
+
+from Primitives.KoalbyPrimitive import Primitive
+
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
@@ -33,6 +36,7 @@ class Robot(object):
         self.r_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.r_arm, passiv=self.torso,
                                                        tip=[0, 0.18, 0])'''
 
+        self.primitives = list()
 
     def shutdown(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
@@ -54,9 +58,30 @@ class Robot(object):
             group.append(motor)
         return group
 
-
-
     def PrimitiveManagerUpdate(self):
+        '''
+        Take list of active primitives which will come from UI
+        Look at motor commands from primitives.
+        All primitive update functions need to return a dict of motor IDs and setPositions
+        '''
 
-        pass
+        # From user interface
 
+        #Example Stuff
+        motorPositionsDict = [[0x07, 25], [0x07, 50]] # id, position
+        self.primitives[0] = Primitive(motorPositionsDict)
+
+
+        # self.primitives = updated
+        motorPositionsNew = list()
+        for primitive in self.primitives:
+            for mp in primitive.motorPositionsDict:
+                motorPositionsNew.append(mp)
+
+        finalMotorPositions = list()
+        for m1 in range(0, len(motorPositionsNew)):
+            for m2 in range(m1 + 1, len(motorPositionsNew)):
+                if m1[0] == m2[0]
+                    m3 = [(m1[0]+m2[0])/2, m1[1]]
+                    finalMotorPositions.append(m2)
+        return finalMotorPositions

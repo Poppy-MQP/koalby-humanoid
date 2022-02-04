@@ -34,7 +34,7 @@ class Motor(object):
         idPosTimeArr = [11, self.motorID, position, time]
         self.arduino_serial.send_command(','.join(map(str, idPosTimeArr)))
 
-    def torqueOnOff(self, toggle)
+    def torqueOnOff(self, toggle):
         """turns the torque of a motor on or off based on a 1 or 0 input and sends this to the arduino"""
         idBoolArr = [20, self.motorID, toggle]
         self.arduino_serial.send_command(idBoolArr)
