@@ -82,6 +82,8 @@ class Robot(object):
         for m1 in range(0, len(motorPositionsNew)):
             for m2 in range(m1 + 1, len(motorPositionsNew)):
                 if m1[0] == m2[0]:
-                    m3 = [(m1[0]+m2[0])/2, m1[1]]
+                    m3 = [m1[0], (m1[1]+m2[1])/2]
+                    finalMotorPositions.append(m3)
+                else:
                     finalMotorPositions.append(m2)
         return finalMotorPositions
