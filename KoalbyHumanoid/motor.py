@@ -1,3 +1,5 @@
+import time
+
 import ArduinoSerial
 
 # import config
@@ -34,7 +36,7 @@ class Motor(object):
         """sends a desired motor position to the arduino <to be executed in a set amount of time?>"""
         idPosTimeArr = [11, self.motorID, position, time]
         testArr = [self.motorID, position]
-        print(','.join(map(str, testArr)))
+        # print(','.join(map(str, testArr)))
         self.arduino_serial.send_command(','.join(map(str, idPosTimeArr)))
 
     def torqueOnOff(self, toggle):

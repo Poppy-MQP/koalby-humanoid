@@ -1,5 +1,6 @@
 import time
 import KoalbyHumanoid.robot as robot
+
 """
 Interaction Primitive:
 *** may break up into multiple primitives ***
@@ -16,6 +17,7 @@ Interaction Primitive:
         example: user moves arm in a waving pattern, robot will then loop this wave until told to stop
 """
 
+
 def ArmMirror():
     koalby = robot.Robot()
     for m in koalby.r_arm:
@@ -23,8 +25,8 @@ def ArmMirror():
 
     try:
         while True:
-            r_arm_angles = koalby.r_arm_chain.joints_position()
-            print("Right arm: ",r_arm_angles)
+            r_arm_angles = koalby.r_arm_chain.joints_position
+            print("Right arm: ", r_arm_angles)
             for m, pos in list(zip(koalby.l_arm_chain.motors, r_arm_angles)):
                 m.setPositionTime(pos, 0.5)
             time.sleep(1)
@@ -32,6 +34,7 @@ def ArmMirror():
     # Close properly the object when finished
     except KeyboardInterrupt:
         koalby.close()
+
 
 # Ian Code. Temporary putting here
 def arm_follow_test():
@@ -61,5 +64,5 @@ def arm_follow_test():
 
 def follow_hand(koalby, delta):
     """Tell the left hand to follow the right hand"""
-    left_arm_position = koalby.r_arm_chain.position() + delta
+    left_arm_position = koalby.r_arm_chain.position + delta
     koalby.l_arm_chain.goto(left_arm_position, 0.5, 0.5, wait=True)
