@@ -24,6 +24,8 @@ class Robot(object):
         self.arduino_serial = ArduinoSerial.ArduinoSerial()
         self.arduino_serial.send_command('1')
 
+        self.motorPositionsDict = {}
+
         self.motors = self.motorsInit()
         self.l_arm = self.motorGroupsInit(0)
         self.r_arm = self.motorGroupsInit(1)
@@ -68,8 +70,8 @@ class Robot(object):
         # From user interface
 
         #Example Stuff
-        motorPositionsDict = [[0x07, 25], [0x07, 50]] # id, position
-        self.primitives[0] = Primitive(motorPositionsDict)
+        self.motorPositionsDict = [[0x07, 25], [0x07, 50]]  # id, position
+        self.primitives[0] = Primitive(self.motorPositionsDict)
 
 
         # self.primitives = updated
