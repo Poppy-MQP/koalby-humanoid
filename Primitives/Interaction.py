@@ -28,10 +28,24 @@ def ArmMirror():
             r_arm_angles = koalby.r_arm_chain.joints_position
             print("Right arm: ", r_arm_angles)
             for m, pos in list(zip(koalby.l_arm_chain.motors, r_arm_angles)):
-                m.setPositionTime(pos, 0.5)
+                if 'l_' in m.name:
+                    m.setPositionPos(pos)
             time.sleep(1)
 
     # Close properly the object when finished
+    except KeyboardInterrupt:
+        koalby.close()
+
+def ArmMirrorSimple():
+    koalby = robot.Robot()
+    for m in koalby.r_arm:
+        m.torqueOnOff(0)
+    try:
+        while True:
+            r_pos = koalby.r_shoulder_y.getPosition()
+            #print(r_pos)
+
+            koalby.l_shoulder_y.setPositionPos(r_pos)
     except KeyboardInterrupt:
         koalby.close()
 
@@ -51,7 +65,7 @@ def arm_follow_test():
     '''for m in koalby.torso:
         m.torqueOnOff(1)'''
 
-    target_delta = [0, 0.1, 0]
+    target_delta = [0, -0.1, 0]
     try:
         while True:
             follow_hand(koalby, target_delta)
@@ -65,4 +79,4 @@ def arm_follow_test():
 def follow_hand(koalby, delta):
     """Tell the left hand to follow the right hand"""
     left_arm_position = koalby.r_arm_chain.position + delta
-    koalby.l_arm_chain.goto(left_arm_position, 0.5, 0.5, wait=True)
+    koalby.l_arm_chain.goto(left_arm_position, 0.5, wait=True)

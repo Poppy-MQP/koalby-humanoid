@@ -106,24 +106,22 @@ class IKChain(Chain):
         """
         return rpy_matrix(r, p, y)
 
-    def goto(self, position, orientation, duration, wait=False, accurate=False):
+    def goto(self, position, orientation, wait=False, accurate=False):
         """ Goes to a given cartesian position.
         :param list position: [x, y, z] representing the target position (in meters)
         :param list orientation: [Rx.x, Rx.y, Rx.z] transformation along X axis (values from -1 to 1)
-        :param float duration: move duration
         :param bool wait: whether to wait for the end of the move
         :param bool accurate: trade-off between accurate solution and computation time. By default, use the not so
         accurate but fast version.
         """
         # if len(position) != 3:
         #     raise ValueError('Position should be a list [x, y, z]!')
-        self._goto(position, orientation, duration, wait, accurate)
+        self._goto(position, orientation, wait, accurate)
 
-    def _goto(self, position, orientation, duration, wait, accurate):
+    def _goto(self, position, orientation, wait, accurate):
         """ Goes to a given cartesian pose.
         :param matrix position: [x, y, z] representing the target position (in meters)
         :param list orientation: [Rx.x, Rx.y, Rx.z] transformation along X axis (values from -1 to 1)
-        :param float duration: move duration
         :param bool wait: whether to wait for the end of the move
         :param bool accurate: trade-off between accurate solution and computation time. By default, use the not so
         accurate but fast version.
@@ -149,15 +147,16 @@ class IKChain(Chain):
                                     orientation_mode=orientation_mode,
                                     **kwargs)
 
-        print("Q ", q)
+        #print("Q ", q)
 
         joints = self.convert_from_ik_angles(q)
 
-        print("Joints ", joints)
+        #print("Joints ", joints)
 
         last = self.motors[-1]
         for m, pos in list(zip(self.motors, joints)):
-            m.setPositionTime(pos, duration)
+            if 'l_' in m.name:
+                m.setPositionPos(pos)
             # m.goto_position(pos, duration, wait=False if m != last else wait)
 
     def convert_to_ik_angles(self, joints):

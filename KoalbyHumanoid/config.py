@@ -31,29 +31,29 @@ motors = [
     [4, [0, 0], 'Herk', 'l_elbow_y'],
 
     # Torso
-    [9, [0, 0], 'Herk', 'abs_y'],
-    [8, [0, 0], 'Herk', 'abs_x'],
+    [21, [0, 0], 'Dyn', 'abs_y'],
+    [22, [0, 0], 'Dyn', 'abs_x'],
     [10, [0,0], 'Herk', 'abs_z'],
-    [0x12, [0,0], 'Herk', 'bust_y'],
-    [0x11, [0,0], 'Herk', 'bust_x'],
+    [9, [0,0], 'Herk', 'bust_y'],
+    [8, [0,0], 'Herk', 'bust_x'],
 
     # Right Leg
-    [0x14, [0,0], 'Herk', 'r_hip_x'],
-    [0x15, [0,0], 'Herk', 'r_hip_z'],
-    [0x14, [0,0], 'Herk', 'r_hip_y'],
-    [0x15, [0,0], 'Herk', 'r_knee_y'],
-    [0x15, [0,0], 'Herk', 'r_ankle_y'],
+    [16, [0,0], 'Herk', 'r_hip_x'],
+    [17, [0,0], 'Herk', 'r_hip_z'],
+    [18, [0,0], 'Herk', 'r_hip_y'],
+    [19, [0,0], 'Dyn', 'r_knee_y'],
+    [20, [0,0], 'Herk', 'r_ankle_y'],
 
     # Left Leg
-    [0x14, [0,0], 'Herk', 'l_hip_x'],
-    [0x15, [0,0], 'Herk', 'l_hip_z'],
-    [0x14, [0,0], 'Herk', 'l_hip_y'],
-    [0x15, [0,0], 'Herk', 'l_knee_y'],
-    [0x15, [0,0], 'Herk', 'l_ankle_y'],
+    [11, [0,0], 'Herk', 'l_hip_x'],
+    [12, [0,0], 'Herk', 'l_hip_z'],
+    [13, [0,0], 'Dyn', 'l_hip_y'],
+    [14, [0,0], 'Herk', 'l_knee_y'],
+    [15, [0,0], 'Herk', 'l_ankle_y'],
 
     # Head
-    [0x14, [0, 0], 'Herk', 'head_z'],
-    [0x15, [0, 0], 'Herk', 'head_y']
+    [23, [0, 0], 'Dyn', 'head_z'],
+    [24, [0, 0], 'Dyn', 'head_y']
 ]
 
 ''' Array of all motor groups for Koalby.'''

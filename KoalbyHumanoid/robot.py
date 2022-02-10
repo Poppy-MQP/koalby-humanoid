@@ -21,7 +21,7 @@ class Robot(object):
         # self.arduino_serial = [] # Fake assignment for testing without robot.
         # If it reaches 'AttributeError: 'list' object has no attribute 'send_command'' Then test on robot
         self.arduino_serial = ArduinoSerial.ArduinoSerial()
-        self.arduino_serial.send_command('1')  # This initializes the robot with all the initial motor positions
+        self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
         print("Sent 1")
 
         self.motors = self.motorsInit()
@@ -59,3 +59,7 @@ class Robot(object):
                 group.append(motor)
             setattr(Robot, config.motorGroups[i][0], group)
             i += 1
+
+    def close(self):
+        # Can add other stuff here if we need to handle incomplete statement sending
+        self.shutdown()
