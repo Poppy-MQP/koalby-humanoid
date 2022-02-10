@@ -1,11 +1,15 @@
 
 import sys, os
+
+from Primitives.Idle import Dance2
+
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import time
 
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
 from KoalbyHumanoid.robot import Robot
+import Dance
 
 """A simple test suite to check pi -> arduino communication and motor control"""
 
@@ -14,13 +18,14 @@ NEXT STEPS:
 '''
 
 robot = Robot()
-motor = Motor(4, [-3, 140], robot.arduino_serial)
 
-time.sleep(3)
-print(motor.getPosition())
-motor.setPositionPos(50)
-time.sleep(3)
-print(motor.getPosition())
+robot.primitives.append(Dance)
+Dance.isActive = True
+robot.primitives.append(Dance2)
+Dance2.isActive = True
+for i in range(0,2):
+    robot.PrimitiveManagerUpdate()
+    i=i+1
 
 
 # # Ian Code. Temporary putting here

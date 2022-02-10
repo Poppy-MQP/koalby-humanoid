@@ -4,6 +4,8 @@ Dance Primitive
     DanceToBeat()
         cause robot to move rythmically in response to a beats per minute (BPM) input
 """
+import time
+
 from Primitives.KoalbyPrimitive import Primitive
 
 motorPositionDict = [
@@ -19,9 +21,20 @@ motorPositionDict = [
     [0x07, 213],
 ]
 
-
 sensors = [
-    #list of sensor commands
+    # list of sensor commands
 
 ]
-Dance = Primitive(motorPositionDict,sensors ,False)
+Dance = Primitive(motorPositionDict, 0, False)
+
+
+def getCommand():
+    return Dance.getCommand()
+
+
+def timer(time):
+    return Dance.timer(time)
+
+
+def removeCommand():
+    Dance.removeCommand()

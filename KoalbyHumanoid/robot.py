@@ -8,19 +8,24 @@ Possible functionalities:
 """
 import sys, os
 
+import self as self
+
 from Primitives.KoalbyPrimitive import Primitive
+from Primitives import Dance
 
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
 from Kinematics.CopiedIK import IKChain
 import KoalbyHumanoid.config as config
-from Primitives import KoalbyPrimitive
 
 
 class Robot(object):
 
     def __init__(self):
+        self.primitives = []
+
+    """
         self.arduino_serial = ArduinoSerial.ArduinoSerial()
         self.arduino_serial.send_command('1')
 
@@ -31,12 +36,11 @@ class Robot(object):
 
         # Change these later
         # Currently commented out to allow for motor testing without errors
-        '''self.l_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_arm, passiv=self.torso,
+        self.l_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_arm, passiv=self.torso,
                                                        tip=[0, 0.18, 0])
         self.r_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.r_arm, passiv=self.torso,
-                                                       tip=[0, 0.18, 0])'''
-
-        self.primitives = list()
+                                                       tip=[0, 0.18, 0])
+    """
 
     def shutdown(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
@@ -67,23 +71,38 @@ class Robot(object):
 
         # From user interface
 
-        #Example Stuff
-        motorPositionsDict = [[0x07, 25], [0x07, 50]] # id, position
-        self.primitives[0] = Primitive(motorPositionsDict)
+        motorPositionsNew = []
 
-
-        # self.primitives = updated
-        motorPositionsNew = list()
         for primitive in self.primitives:
-            for mp in primitive.motorPositionsDict:
-                motorPositionsNew.append(mp)
+            print("Get")
+            print(primitive.getCommand())
+            motorPositionsNew.append(primitive.getCommand())
+            primitive.removeCommand()
+            # primitive.timer(0.00001) #will remove the command after timer ends
 
-        finalMotorPositions = list()
+        print("New")
+        print(motorPositionsNew)
+        if len(motorPositionsNew) == 1:
+            return motorPositionsNew
+
+
+        finalMotorPositions = []
         for m1 in range(0, len(motorPositionsNew)):
             for m2 in range(m1 + 1, len(motorPositionsNew)):
-                if m1[0] == m2[0]:
-                    m3 = [m1[0], (m1[1]+m2[1])/2]
+                if motorPositionsNew[m1][0] == motorPositionsNew[m2][0]:
+                    m3 = [motorPositionsNew[m1][0], int((motorPositionsNew[m1][1] + motorPositionsNew[m2][1]) / 2)]
                     finalMotorPositions.append(m3)
                 else:
-                    finalMotorPositions.append(m2)
+                    finalMotorPositions.append(motorPositionsNew[m1])
+
+        print("Final")
+        print(finalMotorPositions)
         return finalMotorPositions
+
+
+
+'''
+        for motor in range(0, len(duplicates)):
+            for motorNext in range(motor+1, len(duplicates)):
+                if duplicates[motor] == duplicates[motorNext]:
+'''

@@ -16,11 +16,11 @@ class Primitive:
         self.isActive = isActive #boolean
 
     def timer(self, duration):
-        timer = threading.Timer(duration, self.removePrimitive)
+        timer = threading.Timer(duration, self.removeCommand)
         timer.start()  # after 'duration' seconds, 'removePrimitive' will be called
 
-    def attachPrimitive(self):
-            pass
+    def getCommand(self):
+        return self.motorPositionsDict[0]
 
-    def removePrimitive(self):
-            pass
+    def removeCommand(self):
+        del self.motorPositionsDict[0]
