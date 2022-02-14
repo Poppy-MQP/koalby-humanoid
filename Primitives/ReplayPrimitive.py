@@ -20,3 +20,4 @@ class ArmMirror(KoalbyPrimitive.Primitive):
         for poseMotorPositionsDict in self.recordedPoses:  # for each pose in the list of recorded poses
             for motorID in poseMotorPositionsDict:  # for each motor on the robot for that pose
                 motorID.setPositionPos()  # set the motor's position to te recorded position at that time step
+

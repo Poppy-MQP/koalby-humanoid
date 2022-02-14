@@ -76,25 +76,25 @@ class Robot(object):
         motorPositionsNew = []
         for primitive in self.primitives:
             print("Get")
-            print(primitive.getCommand())
-            motorPositionsNew.append(primitive.getCommand())
-            primitive.removeCommand()
+            print(primitive.getCommand()) # Get motor position and id
+            motorPositionsNew.append(primitive.getCommand()) # add id to new motor positions list.
+            primitive.removeCommand() # remote command from the primitive motor dictionary
             # primitive.timer(0.00001) #will remove the command after timer ends
 
         print("New")
         print(motorPositionsNew)
         if len(motorPositionsNew) == 1:
-            return motorPositionsNew
+            return motorPositionsNew # if there is only 1 motor command in the list of primitives it will only return the 1st one
 
 
         finalMotorPositions = []
-        for m1 in range(0, len(motorPositionsNew)):
-            for m2 in range(m1 + 1, len(motorPositionsNew)):
-                if motorPositionsNew[m1][0] == motorPositionsNew[m2][0]:
-                    m3 = [motorPositionsNew[m1][0], int((motorPositionsNew[m1][1] + motorPositionsNew[m2][1]) / 2)]
-                    finalMotorPositions.append(m3)
+        for m1 in range(0, len(motorPositionsNew)): #for every motor command in motor positions new
+            for m2 in range(m1 + 1, len(motorPositionsNew)): # for every next motor command in motor positions new
+                if motorPositionsNew[m1][0] == motorPositionsNew[m2][0]: # if the  motor m1 and next motor m2 are the same id
+                    m3 = [motorPositionsNew[m1][0], int((motorPositionsNew[m1][1] + motorPositionsNew[m2][1]) / 2)] # average the motor command and create new command
+                    finalMotorPositions.append(m3) #add m3 to new list of motor positions
                 else:
-                    finalMotorPositions.append(motorPositionsNew[m1])
+                    finalMotorPositions.append(motorPositionsNew[m1]) # add m1 to the new list of motor positions (not modified)
 
         print("Final")
         print(finalMotorPositions)
