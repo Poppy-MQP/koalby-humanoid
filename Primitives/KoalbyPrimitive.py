@@ -10,17 +10,16 @@ from KoalbyHumanoid import config
 
 class Primitive:
 
-    def __init__(self, motorPositionsDict, sensors, isActive):
-        self.motorPositionsDict = motorPositionsDict #list
-        self.sensors = sensors #list
-        self.isActive = isActive #boolean
+    def __init__(self):
+        self.motorPositionsDict = {} #Dictonary
+        self.sensorDict = {}    #Dictionry
+       #self.isActive = isActive #boolean
+
+    def getMotorDict(self):
+        return self.motorPositionsDict
 
     def timer(self, duration):
-        timer = threading.Timer(duration, self.removeCommand)
+        timer = threading.Timer(duration, '''Function''')
         timer.start()  # after 'duration' seconds, 'removePrimitive' will be called
 
-    def getCommand(self):
-        return self.motorPositionsDict[0]
 
-    def removeCommand(self):
-        del self.motorPositionsDict[0]

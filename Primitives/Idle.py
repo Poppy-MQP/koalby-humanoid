@@ -6,35 +6,14 @@ Dance Primitive
 """
 import time
 
-from Primitives.KoalbyPrimitive import Primitive
-
-motorPositionDict = [
-    [0x07, 50],
-    [0x05, 100],
-    [0x04, 120],
-    [0x03, 20],
-    [0x02, 40],
-    [0x01, 0],
-    [0x11, 15],
-    [0x12, 13],
-    [0x13, 14],
-    [0x07, 243],
-]
-
-sensors = [
-    # list of sensor commands
-
-]
-Dance2 = Primitive(motorPositionDict, 0, False)
+from Primitives import KoalbyPrimitive
 
 
-def getCommand():
-    return Dance2.getCommand()
+class Idle(KoalbyPrimitive.Primitive):
 
+    def __init__(self):
+        super().__init__()  # inheritance
+        self.motorPositionsDict = {0x07: 10,
+                                   0x10: 20,
+                                   0x11: 30}
 
-def timer(time):
-    return Dance2.timer(time)
-
-
-def removeCommand():
-    Dance2.removeCommand()
