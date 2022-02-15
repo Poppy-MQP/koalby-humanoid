@@ -28,8 +28,7 @@ class Motor(object):
 
     def setPositionPos(self, position):
         """sends a desired motor position to the arduino"""
-        if position == '':
-            position = '80'
+        position = int(position)
         idPosArr = [10, self.motorID, position]
         #print("send pos", ','.join(map(str, idPosArr))+',')
         self.arduino_serial.send_command(','.join(map(str, idPosArr))+',')

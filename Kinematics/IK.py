@@ -147,15 +147,15 @@ class IKChain(Chain):
                                     orientation_mode=orientation_mode,
                                     **kwargs)
 
-        #print("Q ", q)
+        print("Q: ", q)
 
         joints = self.convert_from_ik_angles(q)
 
-        #print("Joints ", joints)
+        print("Joints: ", joints)
 
         last = self.motors[-1]
         for m, pos in list(zip(self.motors, joints)):
-            if 'l_' in m.name:
+            if 'r_' in m.name:
                 m.setPositionPos(pos)
             # m.goto_position(pos, duration, wait=False if m != last else wait)
 
@@ -229,6 +229,6 @@ class IKChain(Chain):
             no_position = False
             frame_target[:3, 3] = target_position
 
-        print("Frame", frame_target)
+        #print("Frame", frame_target)
 
         return self.inverse_kinematics_frame(target=frame_target, orientation_mode=orientation_mode, no_position=no_position, **kwargs)
