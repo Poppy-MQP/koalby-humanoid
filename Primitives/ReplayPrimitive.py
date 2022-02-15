@@ -2,7 +2,7 @@ import KoalbyPrimitive
 import time
 
 
-class ArmMirror(KoalbyPrimitive.Primitive):
+class ReplayPrimitive(KoalbyPrimitive.Primitive):
 
     def __init__(self, Motors):
         self.Motors = Motors
@@ -26,6 +26,6 @@ class ArmMirror(KoalbyPrimitive.Primitive):
         # TODO: change poseFrequency to be a selectable value
         for poseMotorPositionsDict in self.recordedPoses:  # for each pose in the list of recorded poses
             for motorID in poseMotorPositionsDict:  # for each motor on the robot for that pose
-                motorID.setPositionPos()  # set the motor's position to te recorded position at that time step
+                motorID.setPositionPos(poseMotorPositionsDict[motorID])  # set the motor's position to the recorded position at that time step
             time.sleep(self.poseFrequency)
 

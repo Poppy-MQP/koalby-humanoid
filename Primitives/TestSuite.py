@@ -3,6 +3,7 @@ import sys, os
 
 from Primitives.Dance import Dance
 from Primitives.Idle import Idle
+from Primitives.ReplayPrimitive import ReplayPrimitive
 
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import time
@@ -18,11 +19,13 @@ NEXT STEPS:
 '''
 
 robot = Robot()
-dance = Dance()
-idle = Idle()
-
-robot.primitives.append(dance)
-robot.primitives.append(idle)
+# dance = Dance()
+# idle = Idle()
+replay = ReplayPrimitive(robot.motors)
+#
+# robot.primitives.append(dance)
+# robot.primitives.append(idle)
+robot.primitives.append(replay)
 robot.PrimitiveManagerUpdate()
 
 

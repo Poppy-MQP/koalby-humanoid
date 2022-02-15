@@ -27,7 +27,7 @@ class Robot(object):
         self.primitives = []
         self.primitiveMotorDict = {}
         #self.motors = [Motor(7,2,0), Motor(16,2,0)]
-        #self.motors = self.motorsInit()
+        self.motors = self.motorsInit()
     """
         self.arduino_serial = ArduinoSerial.ArduinoSerial()
         self.arduino_serial.send_command('1')
