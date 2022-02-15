@@ -26,7 +26,8 @@ class Robot(object):
     def __init__(self):
         self.primitives = []
         self.primitiveMotorDict = {}
-        self.motors = self.motorsInit()
+        #self.motors = [Motor(7,2,0), Motor(16,2,0)]
+        #self.motors = self.motorsInit()
     """
         self.arduino_serial = ArduinoSerial.ArduinoSerial()
         self.arduino_serial.send_command('1')
@@ -70,9 +71,9 @@ class Robot(object):
         '''
         Take the primitiveMotorDict and send the motor values to the robot
         '''
-        for key,value in self.primitiveMotorDict:
+        for key,value in self.primitiveMotorDict.items():
             for motor in self.motors:
-                if motor == key:
+                if str(motor.motorID) == str(key):
                     motor.setPositionPos(self.primitiveMotorDict[key])
 
 
