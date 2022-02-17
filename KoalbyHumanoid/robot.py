@@ -19,6 +19,7 @@ from KoalbyHumanoid.motor import Motor
 from Kinematics.IK import IKChain
 import KoalbyHumanoid.config as config
 from collections import defaultdict
+from threading import Thread
 
 
 class Robot(object):
@@ -30,6 +31,8 @@ class Robot(object):
         self.motors = self.motorsInit()
         self.motorGroupsInit()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
+        # = Thread(target=self.primiti)
+        # t2.start()
 
         # self.arduino_serial = [] # Fake assignment for testing without robot.
         # If it reaches 'AttributeError: 'list' object has no attribute 'send_command'' Then test on robot
@@ -62,6 +65,8 @@ class Robot(object):
         for key, value in self.primitiveMotorDict.items():
             for motor in self.motors:
                 if str(motor.motorID) == str(key):
+                    if self.primitiveMotorDict[key] == "":
+                        self.primitiveMotorDict[key] = 0
                     #  print(self.primitiveMotorDict[key])
                     motor.setPositionPos(self.primitiveMotorDict[key])
 
@@ -74,8 +79,8 @@ class Robot(object):
 
         # If there is only 1 primitive in active list, return primitive's dictionary
         if len(self.primitives) == 1:
-            print("TRUE")
             self.primitiveMotorDict = self.primitives[0].getMotorDict()
+            print("Update")
             print(self.primitiveMotorDict)
             self.updateMotors()  # send new dict to motors
             return self.primitiveMotorDict
@@ -107,6 +112,7 @@ class Robot(object):
 
         return self.primitiveMotorDict
 
+
     def motorGroupsInit(self):
         i = 0
         for row in config.motorGroups:
@@ -116,6 +122,7 @@ class Robot(object):
                 group.append(motor)
             setattr(Robot, config.motorGroups[i][0], group)
             i += 1
+
 
     def close(self):
         # Can add other stuff here if we need to handle incomplete statement sending
