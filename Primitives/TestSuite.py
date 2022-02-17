@@ -28,8 +28,7 @@ robot.primitives.append(idle)
 # replay.recordMotion()
 while 1:
     robot.PrimitiveManagerUpdate()
-    idle.changePos()
-    dance.changePos()
+    dance.armDance()
 
 # Interaction.arm_replay_test()
 # robot.shutdown()
