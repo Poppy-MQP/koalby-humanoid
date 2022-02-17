@@ -1,9 +1,15 @@
 import sys, os
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 from ikpy.chain import Chain
+from ikpy.urdf import URDF
 from ikpy.utils.geometry import rpy_matrix
 from ikpy.urdf.URDF import get_chain_from_joints
 from numpy import deg2rad, rad2deg, array, arctan2, sqrt
+import os
+import numpy as np
+
+import xml.etree.ElementTree as ET
+import itertools
 
 
 class IKChain(Chain):
@@ -21,11 +27,16 @@ class IKChain(Chain):
         :param list tip: [x, y, z] translation of the tip of the chain (in meters)
         :param list reversed_motors: list of motors that should be manually reversed (due to a problem in the URDF?)
         """
-        chain_elements = get_chain_from_joints(poppy.urdf_file, [m.name for m in motors])
+        # This works koalbyURDF = 'C:/Users/raymo/PycharmProjects/koalby-humanoid/Kinematics/Koalby_Humanoid.urdf'
+        script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
+        rel_path = "Koalby_Humanoid.urdf"
+        koalbyURDF = os.path.join(script_dir, rel_path)
+
+        chain_elements = get_chain_from_joints(koalbyURDF, [m.name for m in motors])
 
         activ = [False] + [m not in passiv for m in motors] + [True]
 
-        chain = cls.from_urdf_file(poppy.urdf_file,
+        chain = cls.from_urdf_file(koalbyURDF,
                                    base_elements=chain_elements,
                                    last_link_vector=tip,
                                    active_links_mask=activ)
@@ -33,12 +44,7 @@ class IKChain(Chain):
         chain.motors = [getattr(poppy, l.name) for l in chain.links[1:-1]]
 
         for m, l in zip(chain.motors, chain.links[1:-1]):
-            # Force an access to angle limit to retrieve real values
-            # This is quite an ugly fix and should be handled better
-            m.angle_limit
-
-            bounds = m.__dict__['lower_limit'], m.__dict__['upper_limit']
-            l.bounds = tuple(map(rad2deg, bounds))
+            l.bounds = tuple(map(rad2deg, m.angle_limit))
 
         chain._reversed = array([(-1 if m in reversed_motors else 1) for m in motors])
 
@@ -47,7 +53,7 @@ class IKChain(Chain):
     @property
     def joints_position(self):
         """ Returns the joints position of all motors in the chain (in degrees). """
-        return [m.present_position for m in self.motors]
+        return [m.getPosition() for m in self.motors]
 
     # Transformation matrix M:
     # [[ Rx.x, Ry.x, Rz.x, T.x ],      R = M[:3][:3] is the rotation matrix.
@@ -100,24 +106,22 @@ class IKChain(Chain):
         """
         return rpy_matrix(r, p, y)
 
-    def goto(self, position, orientation, duration, wait=False, accurate=False):
+    def goto(self, position, orientation, wait=False, accurate=False):
         """ Goes to a given cartesian position.
         :param list position: [x, y, z] representing the target position (in meters)
         :param list orientation: [Rx.x, Rx.y, Rx.z] transformation along X axis (values from -1 to 1)
-        :param float duration: move duration
         :param bool wait: whether to wait for the end of the move
         :param bool accurate: trade-off between accurate solution and computation time. By default, use the not so
         accurate but fast version.
         """
         # if len(position) != 3:
         #     raise ValueError('Position should be a list [x, y, z]!')
-        self._goto(position, orientation, duration, wait, accurate)
+        self._goto(position, orientation, wait, accurate)
 
-    def _goto(self, position, orientation, duration, wait, accurate):
+    def _goto(self, position, orientation, wait, accurate):
         """ Goes to a given cartesian pose.
         :param matrix position: [x, y, z] representing the target position (in meters)
         :param list orientation: [Rx.x, Rx.y, Rx.z] transformation along X axis (values from -1 to 1)
-        :param float duration: move duration
         :param bool wait: whether to wait for the end of the move
         :param bool accurate: trade-off between accurate solution and computation time. By default, use the not so
         accurate but fast version.
@@ -143,18 +147,25 @@ class IKChain(Chain):
                                     orientation_mode=orientation_mode,
                                     **kwargs)
 
+        print("Q: ", q)
+
         joints = self.convert_from_ik_angles(q)
+
+        print("Joints: ", joints)
 
         last = self.motors[-1]
         for m, pos in list(zip(self.motors, joints)):
-            m.goto_position(pos, duration, wait=False if m != last else wait)
+            if 'r_' in m.name:
+                m.setPositionPos(pos)
+            # m.goto_position(pos, duration, wait=False if m != last else wait)
 
     def convert_to_ik_angles(self, joints):
         """ Convert from poppy representation to IKPY internal representation. """
         if len(joints) != len(self.motors):
             raise ValueError('Incompatible data, len(joints) should be {}!'.format(len(self.motors)))
-
-        raw_joints = [(j + m.offset) * (1 if m.direct else -1) for j, m in zip(joints, self.motors)]
+        #print("Final Check", joints)
+        raw_joints = [int(float(j)) for j in joints]
+        # raw_joints = [(j + m.offset) * (1 if m.direct else -1) for j, m in zip(joints, self.motors)]
 
         raw_joints *= self._reversed
 
@@ -168,5 +179,56 @@ class IKChain(Chain):
         joints = [rad2deg(j) for j in joints[1:-1]]
         joints *= self._reversed
 
-        return [(j * (1 if m.direct else -1)) - m.offset
+        '''return [(j * (1 if m.direct else -1)) - m.offset
+                        for j, m in zip(joints, self.motors)]'''
+        return [(j * 1) - 0
                 for j, m in zip(joints, self.motors)]
+
+    def inverse_kinematics(self, target_position=None, target_orientation=None, orientation_mode=None, **kwargs):
+        """
+
+        Parameters
+        ----------
+        target_position: np.ndarray
+            Vector of shape (3,): the target point
+        target_orientation: np.ndarray
+            Vector of shape (3,): the target orientation
+        orientation_mode: str
+            Orientation to target. Choices:
+            * None: No orientation
+            * "X": Target the X axis
+            * "Y": Target the Y axis
+            * "Z": Target the Z axis
+            * "all": Target the entire frame (e.g. the three axes) (not currently supported)
+        kwargs
+
+        Returns
+        -------
+        list:
+            The list of the positions of each joint according to the target. Note : Inactive joints are in the list.
+        """
+        frame_target = np.eye(4)
+
+        # Compute orientation
+        if orientation_mode is not None:
+            if orientation_mode == "X":
+                frame_target[:3, 0] = target_orientation
+            elif orientation_mode == "Y":
+                frame_target[:3, 1] = target_orientation
+            elif orientation_mode == "Z":
+                frame_target[:3, 2] = target_orientation
+            elif orientation_mode == "all":
+                frame_target[:3, :3] = target_orientation
+            else:
+                raise ValueError("Unknown orientation mode: {}".format(orientation_mode))
+
+        # Compute target
+        if target_position is None:
+            no_position = True
+        else:
+            no_position = False
+            frame_target[:3, 3] = target_position
+
+        #print("Frame", frame_target)
+
+        return self.inverse_kinematics_frame(target=frame_target, orientation_mode=orientation_mode, no_position=no_position, **kwargs)

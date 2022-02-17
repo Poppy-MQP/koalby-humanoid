@@ -1,4 +1,3 @@
-
 import sys, os
 
 from Primitives.Dance import Dance
@@ -10,6 +9,7 @@ import time
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
 from KoalbyHumanoid.robot import Robot
+import Primitives.Interaction as Interaction
 
 """A simple test suite to check pi -> arduino communication and motor control"""
 
@@ -25,37 +25,14 @@ robot.primitives.append(dance)
 robot.primitives.append(idle)
 robot.PrimitiveManagerUpdate()
 
+Interaction.arm_replay_test()
 
-# # Ian Code. Temporary putting here
-# def arm_follow_test():
-#     koalby = Robot()
-#     for m in koalby.motors:
-#         m.goto_position(0, 2)
-#
-#     # Left arm is compliant, right arm is active
-#     for m in koalby.l_arm:
-#         m.compliant = False
-#
-#     for m in koalby.r_arm:
-#         m.compliant = False
-#
-#     # The torso itself must not be compliant
-#     for m in koalby.torso:
-#         m.compliant = False
-#
-#     target_delta = 3
-#     try:
-#         while True:
-#             follow_hand(koalby, target_delta)
-#             time.sleep(10)
-#
-#     # Close properly the object when finished
-#     except KeyboardInterrupt:
-#         koalby.close()
-#
-#
-# def follow_hand(koalby, delta):
-#     """Tell the right hand to follow the left hand"""
-#     right_arm_position = koalby.l_arm_chain.end_effector + delta
-#     koalby.r_arm_chain.goto(right_arm_position, 0.5, wait=True)
+'''robot = Robot()
+robot.shutdown()'''
+'''motor = Motor(4, [-3, 140], "dummy_name", robot.arduino_serial)
 
+time.sleep(3)
+print(motor.getPosition())
+motor.setPositionPos(50)
+time.sleep(3)
+print(motor.getPosition())'''
