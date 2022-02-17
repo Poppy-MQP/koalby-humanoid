@@ -19,17 +19,20 @@ NEXT STEPS:
 '''
 
 robot = Robot()
-# dance = Dance()
-# idle = Idle()
-replay = ReplayPrimitive(robot.motors)
-#
-# robot.primitives.append(dance)
-# robot.primitives.append(idle)
-robot.primitives.append(replay)
-robot.PrimitiveManagerUpdate()
+dance = Dance()
+robot.primitives.append(dance)
+idle = Idle()
+robot.primitives.append(idle)
+# replay = ReplayPrimitive(robot.motors)
+# robot.primitives.append(replay)
+# replay.recordMotion()
+while 1:
+    robot.PrimitiveManagerUpdate()
+    idle.changePos()
+    dance.changePos()
 
-#Interaction.arm_replay_test()
-
+# Interaction.arm_replay_test()
+# robot.shutdown()
 '''robot = Robot()
 robot.shutdown()'''
 '''motor = Motor(4, [-3, 140], "dummy_name", robot.arduino_serial)

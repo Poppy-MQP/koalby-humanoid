@@ -24,21 +24,17 @@ from collections import defaultdict
 class Robot(object):
 
     def __init__(self):
+        self.arduino_serial = ArduinoSerial.ArduinoSerial()
         self.primitives = []
         self.primitiveMotorDict = {}
         self.motors = self.motorsInit()
         self.motorGroupsInit()
-        """
-        #self.motors = [Motor(7,2,0), Motor(16,2,0)]
+        self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
+
         # self.arduino_serial = [] # Fake assignment for testing without robot.
         # If it reaches 'AttributeError: 'list' object has no attribute 'send_command'' Then test on robot
-        self.arduino_serial = ArduinoSerial.ArduinoSerial()
-        self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
-        print("Sent 1")
 
-
-        
-
+        """
         # Change the tip later if needed
         self.l_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_arm, passiv=self.torso,
                                                        tip=[0, 0.18, 0])
@@ -48,8 +44,8 @@ class Robot(object):
 
     def shutdown(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
-        cmdArr = [100]
-        self.arduino_serial.send_command(cmdArr)
+        cmd = "100"
+        self.arduino_serial.send_command(cmd)
 
     def motorsInit(self):
         motors = list()
@@ -66,6 +62,7 @@ class Robot(object):
         for key, value in self.primitiveMotorDict.items():
             for motor in self.motors:
                 if str(motor.motorID) == str(key):
+                    #  print(self.primitiveMotorDict[key])
                     motor.setPositionPos(self.primitiveMotorDict[key])
 
     def PrimitiveManagerUpdate(self):
@@ -78,7 +75,10 @@ class Robot(object):
         # If there is only 1 primitive in active list, return primitive's dictionary
         if len(self.primitives) == 1:
             print("TRUE")
-            return self.primitives[0].getMotorDict()
+            self.primitiveMotorDict = self.primitives[0].getMotorDict()
+            print(self.primitiveMotorDict)
+            self.updateMotors()  # send new dict to motors
+            return self.primitiveMotorDict
 
         #
         primitiveDicts = []

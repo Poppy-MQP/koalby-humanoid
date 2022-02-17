@@ -30,7 +30,7 @@ class Motor(object):
         """sends a desired motor position to the arduino"""
         position = int(position)
         idPosArr = [10, self.motorID, position]
-        #print("send pos", ','.join(map(str, idPosArr))+',')
+        #  print("send pos", ','.join(map(str, idPosArr))+',')
         self.arduino_serial.send_command(','.join(map(str, idPosArr))+',')
         # print(ArduinoSerial.read_command())
 
