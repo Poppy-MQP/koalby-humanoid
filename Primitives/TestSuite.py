@@ -29,6 +29,8 @@ robot.primitives.append(idle)
 while 1:
     robot.PrimitiveManagerUpdate()
     dance.armDance()
+    time.sleep(1)
+
 
 # Interaction.arm_replay_test()
 # robot.shutdown()
