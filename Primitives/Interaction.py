@@ -36,6 +36,7 @@ def ArmMirror():
     except KeyboardInterrupt:
         koalby.close()
 
+
 def ArmMirrorSimple():
     koalby = robot.Robot()
     for m in koalby.r_arm:
@@ -43,7 +44,7 @@ def ArmMirrorSimple():
     try:
         while True:
             r_pos = koalby.r_shoulder_y.getPosition()
-            #print(r_pos)
+            # print(r_pos)
 
             koalby.l_shoulder_y.setPositionPos(r_pos)
     except KeyboardInterrupt:
@@ -79,7 +80,7 @@ def arm_follow_test():
 def follow_hand(koalby, delta):
     """Tell the left hand to follow the right hand"""
     left_arm_position = koalby.r_arm_chain.position + delta
-    koalby.l_arm_chain.goto(left_arm_position, 0.5, wait=True)
+    koalby.l_arm_chain.goto(left_arm_position, None, wait=True)
 
 
 def arm_replay_test():
@@ -94,7 +95,8 @@ def arm_replay_test():
             time.sleep(5)
 
             pos = koalby.r_arm_chain.position
-            print("Arm at: ", pos, ". Release arm now")
+            ori = koalby.r_arm_chain.orientation
+            print("Arm at: ", pos, " and ", ori, ". Release arm now")
             time.sleep(3)
 
             # Torque on
@@ -104,7 +106,7 @@ def arm_replay_test():
             print("Torque on. Moving soon")
             time.sleep(1)
 
-            koalby.r_arm_chain.goto(pos, 0.5, wait=True)
+            koalby.r_arm_chain.goto(pos, ori, wait=True)
             time.sleep(1)
             print("Arm Holding Position", koalby.r_arm_chain.position)
             time.sleep(4)
@@ -112,4 +114,3 @@ def arm_replay_test():
     # Close properly the object when finished
     except KeyboardInterrupt:
         koalby.close()
-

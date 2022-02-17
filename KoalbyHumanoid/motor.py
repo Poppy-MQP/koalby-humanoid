@@ -23,14 +23,17 @@ class Motor(object):
         self.arduino_serial.send_command(','.join(map(str, idArr))+',')
         #print("get position", ','.join(map(str, idArr))+',')
         currentPosition = self.arduino_serial.read_command()
-        #print(currentPosition)
+        # print(self.motorID, currentPosition)
+        if currentPosition == '':
+            currentPosition = 0
+            print("getPosition received a blank")
         return currentPosition
 
     def setPositionPos(self, position):
         """sends a desired motor position to the arduino"""
         position = int(position)
         idPosArr = [10, self.motorID, position]
-        #print("send pos", ','.join(map(str, idPosArr))+',')
+        # print("send pos", ','.join(map(str, idPosArr))+',')
         self.arduino_serial.send_command(','.join(map(str, idPosArr))+',')
         # print(ArduinoSerial.read_command())
 

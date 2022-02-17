@@ -7,6 +7,7 @@ Possible functionalities:
     - handle full robot-wide commands such as "shutdown"
 """
 import sys, os
+import time
 
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import ArduinoSerial
@@ -23,6 +24,8 @@ class Robot(object):
         self.arduino_serial = ArduinoSerial.ArduinoSerial()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
         print("Sent 1")
+        time.sleep(1)
+        self.arduino_serial.send_command('1,')  # This is a backup to ensure all motors are connected
 
         self.motors = self.motorsInit()
         self.motorGroupsInit()
