@@ -26,7 +26,8 @@ class Robot(object):
     def __init__(self):
         self.primitives = []
         self.primitiveMotorDict = {}
-
+        self.motors = self.motorsInit()
+        self.motorGroupsInit()
         """
         #self.motors = [Motor(7,2,0), Motor(16,2,0)]
         # self.arduino_serial = [] # Fake assignment for testing without robot.
@@ -36,8 +37,7 @@ class Robot(object):
         print("Sent 1")
 
 
-        self.motors = self.motorsInit()
-        self.motorGroupsInit()
+        
 
         # Change the tip later if needed
         self.l_arm_chain = IKChain.from_poppy_creature(self, motors=self.torso + self.l_arm, passiv=self.torso,

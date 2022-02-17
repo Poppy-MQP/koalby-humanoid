@@ -25,7 +25,7 @@ robot.primitives.append(dance)
 robot.primitives.append(idle)
 robot.PrimitiveManagerUpdate()
 
-Interaction.arm_replay_test()
+#Interaction.arm_replay_test()
 
 '''robot = Robot()
 robot.shutdown()'''
