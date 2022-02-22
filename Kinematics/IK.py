@@ -14,6 +14,12 @@ import itertools
 
 class IKChain(Chain):
     """ Motors chain used for forward and inverse kinematics.
+
+    MQP Note: This was last worked on 2/18/22. As of that time, the team determined that the way IK is calculated in
+    _goto doesn't function due to scipy.minimize bounds. Would need to resolve this issue, or rewrite IK code from
+    scratch to get things working.There also seemed to be an issue with FK not using the top shoulder joint to
+    calculate positions, but this was tested less than the IK bug.
+
     This class is based on the IK Chain as defined in the IKPY library (https://github.com/Phylliade/ikpy). It
     provides convenient methods to directly create such a chain directly from a Poppy Creature.
     """
@@ -107,7 +113,13 @@ class IKChain(Chain):
         return rpy_matrix(r, p, y)
 
     def goto(self, position, orientation, wait=False, accurate=False):
-        """ Goes to a given cartesian position.
+        """ MQP Note: This was last worked on 2/18/22. As of that time, the team determined that the way IK is
+        calculated in _goto doesn't function due to scipy.minimize bounds (dig down through the functions that
+        generate q). Would need to resolve this issue, or rewrite IK code from scratch to get things working. There
+        also seemed to be an issue with FK not using the top shoulder joint to calculate positions, but this was
+        tested less than the IK bug.
+
+        Goes to a given cartesian position.
         :param list position: [x, y, z] representing the target position (in meters)
         :param list orientation: [Rx.x, Rx.y, Rx.z] transformation along X axis (values from -1 to 1)
         :param bool wait: whether to wait for the end of the move
@@ -119,7 +131,13 @@ class IKChain(Chain):
         self._goto(position, orientation, wait, accurate)
 
     def _goto(self, position, orientation, wait, accurate):
-        """ Goes to a given cartesian pose.
+        """ MQP Note: This was last worked on 2/18/22. As of that time, the team determined that the way IK is
+        calculated in _goto doesn't function due to scipy.minimize bounds (dig down through the functions that
+        generate q). Would need to resolve this issue, or rewrite IK code from scratch to get things working. There
+        also seemed to be an issue with FK not using the top shoulder joint to calculate positions, but this was
+        tested less than the IK bug.
+
+        Goes to a given cartesian pose.
         :param matrix position: [x, y, z] representing the target position (in meters)
         :param list orientation: [Rx.x, Rx.y, Rx.z] transformation along X axis (values from -1 to 1)
         :param bool wait: whether to wait for the end of the move
