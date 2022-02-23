@@ -18,7 +18,6 @@ replay = ReplayPrimitive(robot.motors)
 replay.recordMotion()
 robot.primitives.append(replay)
 
-
 def Play():
     while True:
         replay.playMotion()

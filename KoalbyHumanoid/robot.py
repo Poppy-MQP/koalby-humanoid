@@ -59,11 +59,10 @@ class Robot(object):
         Take the primitiveMotorDict and send the motor values to the robot
         '''
         for key, value in self.primitiveMotorDict.items():
+            if self.primitiveMotorDict[key] == "":  # Ensures the key's value is not an empty string and makes it 0 if it is
+                self.primitiveMotorDict[key] = 0
             for motor in self.motors:
                 if str(motor.motorID) == str(key):
-                    if self.primitiveMotorDict[key] == "":
-                        self.primitiveMotorDict[key] = 0
-                    #  print(self.primitiveMotorDict[key])
                     motor.setPositionPos(self.primitiveMotorDict[key])
 
     def PrimitiveManagerUpdate(self):
@@ -81,7 +80,6 @@ class Robot(object):
             self.updateMotors()  # send new dict to motors
             return self.primitiveMotorDict
 
-        #
         primitiveDicts = []
         for primitive in self.primitives:
             #print("Get Dictionary")
@@ -108,7 +106,6 @@ class Robot(object):
 
         return self.primitiveMotorDict
 
-
     def motorGroupsInit(self):
         i = 0
         for row in config.motorGroups:
@@ -118,7 +115,6 @@ class Robot(object):
                 group.append(motor)
             setattr(Robot, config.motorGroups[i][0], group)
             i += 1
-
 
     def close(self):
         # Can add other stuff here if we need to handle incomplete statement sending
