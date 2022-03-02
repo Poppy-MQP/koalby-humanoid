@@ -1,29 +1,76 @@
+import time
+from threading import Thread
 from tkinter import *
 from tkinter import messagebox
+from KoalbyHumanoid.robot import Robot
 
-top = Tk()
+from Primitives.Dance import Dance
 
-top.geometry("500x500")
+window = Tk()
+window.geometry("500x500")
+
+robot = Robot()
+dance = Dance()
+
+# Global to stop all threads
+stopThread = False
 
 
-def fun():
-    messagebox.showinfo("Hello", "Red Button clicked")
+# Primitive Manager Thread
+def update():
+    while True:
+        robot.PrimitiveManagerUpdate()
+        global stopThread
+        if stopThread:
+            break;
 
 
-b1 = Button(top, text="Red", command=fun, activeforeground="red", activebackground="pink",padx=50, pady=50)
+# Dance Thread
+def dance():
+    robot.primitives.append(dance)
+    while True:
+        dance.armDance()
+        time.sleep(1)
+        global stopThread
+        if stopThread:
+            break;
 
-b2 = Button(top, text="Blue", activeforeground="blue", activebackground="pink",padx=50, pady=50)
 
-b3 = Button(top, text="Green", activeforeground="green", activebackground="pink", padx=50,pady=50)
+# Setup the threads
+t1 = Thread(target=update)
+t2 = Thread(target=dance)
 
-b4 = Button(top, text="Yellow", activeforeground="yellow", activebackground="pink", padx=50, pady=50)
 
+def stopAllThreads():
+    global stopThread
+    stopThread = True
+
+
+# Functions for the buttons
+def thread1Start():
+    t1.start()
+
+
+def thread1Start():
+    t2.start()
+
+
+# Make the buttons
+b1 = Button(window, text="Shutdown", command=robot.shutdown(), activeforeground="red", activebackground="pink", padx=50,
+            pady=50)
+b2 = Button(window, text="PrimitiveManager", command=thread1Start(), activeforeground="blue", activebackground="pink",
+            padx=50, pady=50)
+b3 = Button(window, text="Dance", command=thread1Start(), activeforeground="green", activebackground="pink", padx=50,
+            pady=50)
+b4 = Button(window, text="StopAll", activeforeground="yellow", activebackground="pink", padx=50, pady=50)
+b5 = Button(window, text="", activeforeground="yellow", activebackground="pink", padx=50, pady=50)
+
+# Set button locations
 b1.pack(side=LEFT)
-
 b2.pack(side=RIGHT)
-
 b3.pack(side=TOP)
-
 b4.pack(side=BOTTOM)
+b5.pack(side=LEFT)
 
-top.mainloop()
+# loop window
+window.mainloop()
