@@ -16,6 +16,7 @@ NEXT STEPS:
 robot = Robot()
 replay = ReplayPrimitive(robot.motors)
 replay.recordMotion()
+# must restart robot before playing back motion, or change the way prim manager operates (no while loop)
 robot.primitives.append(replay)
 
 def Play():
