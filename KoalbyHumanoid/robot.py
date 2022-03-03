@@ -45,6 +45,11 @@ class Robot(object):
                                                        tip=[0, 0.18, 0])
     """
 
+    def initialize(self):
+        """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
+        cmd = "1"
+        self.arduino_serial.send_command(cmd)
+
     def shutdown(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
         cmd = "100"

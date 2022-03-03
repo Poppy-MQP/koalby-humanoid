@@ -13,7 +13,7 @@ robot = Robot()
 dance = Dance()
 robot.primitives.append(dance)
 
-
+'''
 def update():
     while True:
         robot.PrimitiveManagerUpdate()
@@ -32,3 +32,4 @@ t2.start()
 
 while True:
     pass
+'''
