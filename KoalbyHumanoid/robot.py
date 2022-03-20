@@ -99,9 +99,6 @@ class Robot(object):
                 finalMotorValue = motorValue + finalMotorValue
             self.primitiveMotorDict[key] = finalMotorValue / len(mergedDict[key])  # average values
 
-        #print("Final")
-        #print(self.primitiveMotorDict)
-
         self.updateMotors()  # send new dict to motors
 
         return self.primitiveMotorDict

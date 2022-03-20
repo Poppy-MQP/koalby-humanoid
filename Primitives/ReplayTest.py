@@ -19,13 +19,16 @@ replay.recordMotion()
 # must restart robot before playing back motion, or change the way prim manager operates (no while loop)
 robot.primitives.append(replay)
 
+
 def Play():
     while True:
         replay.playMotion()
 
+
 def Update():
     while True:
         robot.PrimitiveManagerUpdate()
+
 
 t1 = Thread(target=Update)
 t2 = Thread(target=Play)
@@ -34,4 +37,3 @@ t2.start()
 
 while True:
     pass
-
