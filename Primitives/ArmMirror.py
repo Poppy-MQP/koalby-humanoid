@@ -3,17 +3,21 @@ import KoalbyPrimitive
 import time
 
 
-class ReplayPrimitive(KoalbyPrimitive.Primitive):
+class ArmMirror(KoalbyPrimitive.Primitive):
 
     def __init__(self, leftArmGroup, rightArmGroup):
         super().__init__()  # inheritance
         self.motorPositionsDict = {}
-        if str(input('Which arm would you like to control?:')) == 'left':  # set controller arm and follower arm
-            self.masterArm = leftArmGroup
-            self.followerArm = rightArmGroup
-        else:
-            self.masterArm = rightArmGroup
-            self.followerArm = leftArmGroup
+        self.masterArm = leftArmGroup
+        self.followerArm = rightArmGroup
+
+        #Set default to left arm for demo
+        #if str(input('Which arm would you like to control?:')) == 'left':  # set controller arm and follower arm
+        #self.masterArm = leftArmGroup
+        #self.followerArm = rightArmGroup
+        #else:
+        #    self.masterArm = rightArmGroup
+        #    self.followerArm = leftArmGroup
         for motor in self.masterArm:  # set desired controller arm to be compliant for manual control
             motor.compliantOnOff(1)
 
