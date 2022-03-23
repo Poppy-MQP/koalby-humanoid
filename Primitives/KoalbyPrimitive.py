@@ -11,9 +11,9 @@ from KoalbyHumanoid import config
 class Primitive:
 
     def __init__(self):
-        self.motorPositionsDict = {} #Dictonary
-        self.sensorDict = {}    #Dictionry
-       #self.isActive = isActive #boolean
+        self.motorPositionsDict = {}  # dictionary holding motorIDs and their relevant data
+        self.sensorDict = {}  # dictionary holding sensorIDs and their relevant data
+        # self.isActive = isActive
 
     def getMotorDict(self):
         return self.motorPositionsDict

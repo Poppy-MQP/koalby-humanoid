@@ -8,11 +8,6 @@ Possible functionalities:
 """
 import sys, os
 
-import self as self
-
-from Primitives.KoalbyPrimitive import Primitive
-from Primitives import Dance
-
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import ArduinoSerial
 from KoalbyHumanoid.motor import Motor
@@ -31,6 +26,7 @@ class Robot(object):
         self.motors = self.motorsInit()
         self.motorGroupsInit()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
+        print('init robot')
         # = Thread(target=self.primiti)
         # t2.start()
 
@@ -84,11 +80,15 @@ class Robot(object):
         # If there is only 1 primitive in active list, return primitive's dictionary
         if len(self.primitives) == 1:
             self.primitiveMotorDict = self.primitives[0].getMotorDict()
+            #print("Update")
+            #print(self.primitiveMotorDict)
             self.updateMotors()  # send new dict to motors
             return self.primitiveMotorDict
 
         primitiveDicts = []
         for primitive in self.primitives:
+            #print("Get Dictionary")
+            #print(primitive.getMotorDict())
             primitiveDicts.append(primitive.getMotorDict())  # Add primitive dictionary to primitiveDicts
 
         # create new dictionary with 1 key value and a list of motor positions

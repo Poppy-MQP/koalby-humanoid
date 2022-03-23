@@ -2,7 +2,7 @@
 Dance Primitive
 
     DanceToBeat()
-        cause robot to move rythmically in response to a beats per minute (BPM) input
+        cause robot to move rhythmically in response to a beats per minute (BPM) input
 """
 import random
 import threading
@@ -24,7 +24,7 @@ class Dance(KoalbyPrimitive.Primitive):
         self.motorPositionsDict = {}  # Clear the dictionary
         for index in range(0, 8):  # Set depth to run in config file (0-4 is right arm motors)
             motorID = motors[index][0]  # Get motor ID
-            motorPos = random.randrange(0, 100, 10)  # Generate random positons between 0 and 100
+            motorPos = random.randrange(0, 100, 10)  # Generate random positions between 0 and 100
             self.motorPositionsDict[motorID] = motorPos  # add position to dictionary
 
     def timer(self, duration):
