@@ -26,7 +26,7 @@ class Robot(object):
         self.motors = self.motorsInit()
         self.motorGroupsInit()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
-        print('init robot')
+        print("Robot Created and Initialized")
         # = Thread(target=self.primiti)
         # t2.start()
 

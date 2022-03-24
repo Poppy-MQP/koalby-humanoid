@@ -11,11 +11,11 @@ window = Tk()
 window.geometry("500x500")
 robot = Robot()
 dance = Dance()
-stopThread = False
+runAll = False
 
 def update():
     while True:
-        global stopThread
+        global runAll
         if not stopThread:
             pass
             #print("Update")
@@ -23,14 +23,14 @@ def update():
 # Dance Thread
 def dance():
     while True:
-        global stopThread
+        global runAll
         if not stopThread:
             print("Dance")
 
 #Arm Mirror Thread
 def armMirror():
     while True:
-        global stopThread
+        global runAll
         if not stopThread:
             print("Mirror")
 
@@ -52,7 +52,7 @@ danceThread = Thread(target=dance)
 armMirrorThread = Thread(target=armMirror)
 
 def stopAll():
-    global stopThread
+    global runAll
     stopThread = True
     danceThread.join()
 # User Interface
