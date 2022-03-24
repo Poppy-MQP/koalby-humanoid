@@ -1,6 +1,7 @@
 import csv
-import KoalbyPrimitive
 import time
+
+from Primitives import KoalbyPrimitive
 
 
 class ArmMirror(KoalbyPrimitive.Primitive):

@@ -1,78 +1,60 @@
 import sys
+from threading import Thread
 
-from Primitives.ArmMirror import ArmMirror
+from KoalbyHumanoid.robot import Robot
 from Primitives.Dance import Dance
 
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
-import time
-from threading import Thread
 from tkinter import *
-from tkinter import messagebox
-from KoalbyHumanoid.robot import Robot
 
-
-
-
+window = Tk()
+window.geometry("500x500")
 robot = Robot()
 dance = Dance()
-armMirror = ArmMirror(robot.motors[0:3], robot.motors[4:7])
-robot.primitives.append(dance)
-robot.primitives.append(armMirror)
-
-# Global Boolean to stop all threads
 stopThread = False
 
-
-# Primitive Manager Thread
 def update():
     while True:
-        robot.PrimitiveManagerUpdate()
         global stopThread
-        if stopThread:
-            break;
-
+        if not stopThread:
+            pass
+            #print("Update")
 
 # Dance Thread
-def dancing():
+def dance():
     while True:
-        dance.armDance()
-        time.sleep(1)
         global stopThread
-        if stopThread:
-            break;
+        if not stopThread:
+            print("Dance")
 
 #Arm Mirror Thread
-def armMirrorMeth():
+def armMirror():
     while True:
-        armMirror.armMirror()
         global stopThread
-        if stopThread:
-            break;
+        if not stopThread:
+            print("Mirror")
 
 
 def init():
     robot.initialize()
-    time.sleep(2)
+    print("Init")
+    pass
 
 
 def shut():
     robot.shutdown()
-    global stopThread
-    stopThread = True
+    print("Shutdown")
+    pass
 
 
-primitiveThread = Thread(target=update)
-primitiveThread.start()
-danceThread = Thread(target=dancing)
-armMirrorThread = Thread(target=armMirrorMeth)
+
+danceThread = Thread(target=dance)
+armMirrorThread = Thread(target=armMirror)
 
 def stopAll():
     global stopThread
     stopThread = True
-
-window = Tk()
-window.geometry("500x500")
-
+    danceThread.join()
 # User Interface
 
 # Make the buttons
@@ -91,5 +73,4 @@ b4.place(x=0, y=150)
 #b5.place(x=150, y=150)
 
 # loop window
-time.sleep(1)
 window.mainloop()

@@ -10,10 +10,10 @@ from KoalbyHumanoid.robot import Robot
 from threading import Thread
 
 robot = Robot()
-dance = Dance()
-robot.primitives.append(dance)
+dance2 = Dance()
+robot.primitives.append(dance2)
 
-'''
+
 def update():
     while True:
         robot.PrimitiveManagerUpdate()
@@ -21,7 +21,7 @@ def update():
 
 def dance():
     while True:
-        dance.armDance()
+        dance2.armDance()
         time.sleep(1)
 
 
@@ -32,4 +32,3 @@ t2.start()
 
 while True:
     pass
-'''
