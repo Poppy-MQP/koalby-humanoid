@@ -18,7 +18,7 @@ class Dance(KoalbyPrimitive.Primitive):
     def __init__(self):
         super().__init__()  # inheritance
         self.motorPositionsDict = {}
-        self.isActive = True
+        self.isActive = False
 
     def armDance(self):
         self.motorPositionsDict = {}  # Clear the dictionary
@@ -26,6 +26,12 @@ class Dance(KoalbyPrimitive.Primitive):
             motorID = motors[index][0]  # Get motor ID
             motorPos = random.randrange(0, 100, 10)  # Generate random positions between 0 and 100
             self.motorPositionsDict[motorID] = motorPos  # add position to dictionary
+
+    def setActive(self):
+        self.isActive = True
+
+    def notActive(self):
+        self.isActive = False
 
     def timer(self, duration):
         timer = threading.Timer(duration, self.armDance())

@@ -11,6 +11,7 @@ class ArmMirror(KoalbyPrimitive.Primitive):
         self.motorPositionsDict = {}
         self.masterArm = leftArmGroup
         self.followerArm = rightArmGroup
+        self.isActive = False
 
         #Set default to left arm for demo
         #if str(input('Which arm would you like to control?:')) == 'left':  # set controller arm and follower arm
@@ -29,3 +30,9 @@ class ArmMirror(KoalbyPrimitive.Primitive):
         for motor in self.followerArm:  # set motors in follower arm to positions of controller arm
             self.motorPositionsDict[motor.motorID] = masterPositions[0]  # add motor pos to motor dict sent to robot
             masterPositions.pop(0)
+
+    def setActive(self):
+        self.isActive = True
+
+    def notActive(self):
+        self.isActive = False
