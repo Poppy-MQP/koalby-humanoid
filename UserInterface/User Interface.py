@@ -54,6 +54,7 @@ def armMirrorMeth():
         if armMirror.isActive:
             armMirror.armMirror()
 
+
 # Start Arm Mirror Thread
 armMirrorT = Thread(target=armMirrorMeth)
 armMirrorT.start()
