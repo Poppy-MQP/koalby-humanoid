@@ -1,17 +1,15 @@
-import sys, os
 import time
-from threading import Thread
-
-from Primitives.Dance import Dance
-
-sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 
 from KoalbyHumanoid.robot import Robot
 from threading import Thread
 
+from Primitives.ArmMirror import ArmMirror
+
 robot = Robot()
-dance = Dance()
-robot.primitives.append(dance)
+#robot.shutdown()
+# robot.arduino_serial.send_command('1,')
+armFollow = ArmMirror() #TODO: insert arm groups
+robot.primitives.append(armFollow)
 
 
 def update():
@@ -19,14 +17,14 @@ def update():
         robot.PrimitiveManagerUpdate()
 
 
-def dance():
+def arm_Follow():
     while True:
-        dance.armDance()
+        armFollow.armMirror()
         time.sleep(1)
 
 
 t1 = Thread(target=update)
-t2 = Thread(target=dance)
+t2 = Thread(target=arm_Follow)
 t1.start()
 t2.start()
 

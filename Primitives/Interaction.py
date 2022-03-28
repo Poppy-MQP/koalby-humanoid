@@ -18,7 +18,7 @@ Interaction Primitive:
 """
 
 
-def ArmMirror():
+def ArmMirrorOld():
     koalby = robot.Robot()
     for m in koalby.r_arm:
         m.torqueOnOff(0)
@@ -37,7 +37,7 @@ def ArmMirror():
         koalby.close()
 
 
-def ArmMirrorSimple():
+def ArmMirrorSimpleOld():
     koalby = robot.Robot()
     for m in koalby.r_arm:
         m.torqueOnOff(0)

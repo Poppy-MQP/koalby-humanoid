@@ -15,7 +15,10 @@ NEXT STEPS:
 
 robot = Robot()
 replay = ReplayPrimitive(robot.motors)
-replay.recordMotion()
+replay.poseTime = float(input("Enter pose time (seconds):")) + 0.005
+replay.poseDelay = float(input("Enter delay between poses (seconds):"))
+robot.poseTimeMillis = int((replay.poseTime - 0.005)*1000)
+
 # must restart robot before playing back motion, or change the way prim manager operates (no while loop)
 robot.primitives.append(replay)
 

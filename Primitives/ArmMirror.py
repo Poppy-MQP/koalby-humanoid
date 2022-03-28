@@ -3,7 +3,7 @@ import KoalbyPrimitive
 import time
 
 
-class ReplayPrimitive(KoalbyPrimitive.Primitive):
+class ArmMirror(KoalbyPrimitive.Primitive):
 
     def __init__(self, leftArmGroup, rightArmGroup):
         super().__init__()  # inheritance
