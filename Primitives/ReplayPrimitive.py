@@ -14,13 +14,14 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
         self.poseTime = 0.0
         self.poseDelay = 0.0
         self.motorPositionsDict = {}
+        self.replayFilename = ""
 
     def playMotion(self):
         """
         iterates through list of recorded poses of entire robot,
         holding each pose for defined pose time.
         """
-        with open(str(input("Input saved file name to play back:"))) as f:
+        with open(self.replayFilename) as f:
             csvRecordedPoses = [{k: int(v) for k, v in row.items()}
                                 for row in csv.DictReader(f, skipinitialspace=True)]  # parses selected csv file into list of poses
         for poseMotorPositionsDict in csvRecordedPoses:  # for each pose in the list of recorded poses
