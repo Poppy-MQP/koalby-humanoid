@@ -27,6 +27,12 @@ class Dance(KoalbyPrimitive.Primitive):
             motorPos = random.randrange(0, 100, 10)  # Generate random positions between 0 and 100
             self.motorPositionsDict[motorID] = motorPos  # add position to dictionary
 
+    def change(self):
+        if self.isActive:
+            self.isActive = False
+        else:
+            self.isActive = True
+
     def setActive(self):
         self.isActive = True
 

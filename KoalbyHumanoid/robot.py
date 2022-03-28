@@ -23,6 +23,7 @@ class Robot(object):
         self.arduino_serial = ArduinoSerial.ArduinoSerial()
         self.primitives = []
         self.primitiveMotorDict = {}
+        self.poseTimeMillis = 1000
         self.motors = self.motorsInit()
         self.motorGroupsInit()
         self.arduino_serial.send_command('1,')  # This initializes the robot with all the initial motor positions
@@ -68,7 +69,7 @@ class Robot(object):
                 self.primitiveMotorDict[key] = 0
             for motor in self.motors:
                 if str(motor.motorID) == str(key):
-                    motor.setPositionPos(self.primitiveMotorDict[key])
+                    motor.setPositionTime(self.primitiveMotorDict[key], self.poseTimeMillis)
 
     def PrimitiveManagerUpdate(self):
         '''

@@ -2,6 +2,7 @@ import sys
 
 from Primitives.ArmMirror import ArmMirror
 from Primitives.Dance import Dance
+from Primitives.ReplayPrimitive import ReplayPrimitive
 
 sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
 import time
@@ -13,6 +14,7 @@ from KoalbyHumanoid.robot import Robot
 print("Start User Interface")
 robot = Robot()
 dance = Dance()
+replay = ReplayPrimitive()
 armMirror = ArmMirror(robot.motors[0:3], robot.motors[4:7])  # Arm Mirror created with left and right arm motor groups
 
 # Add primitives to robot primitive list
@@ -60,6 +62,17 @@ def armMirrorMeth():
 armMirrorT = Thread(target=armMirrorMeth)
 armMirrorT.start()
 
+# Replay Thread
+def replayMeth():
+    print("Replay Thread Started")
+    while True:
+        if replay.isActive():
+            replay.playMotion()
+
+
+# Start Replay Thread
+
+
 
 # User Interface
 
@@ -78,6 +91,11 @@ def UI():
     b5 = Button(window, text="Start Mirror", command=armMirror.setActive, activeforeground="black", activebackground="pink", padx=25, pady=25)
     b6 = Button(window, text="Stop Mirror", command=armMirror.notActive, activeforeground="black", activebackground="pink", padx=25, pady=25)
 
+    # Clap, Dab, Macerena, Shake, Extend, Wave
+    b7 = Button(window, text="Start Clap", command=armMirror.notActive, activeforeground="black", activebackground="pink", padx=25, pady=25)
+    b8 = Button(window, text="Stop Clap", command=armMirror.notActive, activeforeground="black", activebackground="pink", padx=25, pady=25)
+
+
     # Set button locations
     # b0.place(x=175, y=425)
     b1.place(x=0, y=0)
@@ -86,6 +104,8 @@ def UI():
     b4.place(x=150, y=80)
     b5.place(x=300, y=0)
     b6.place(x=300, y=80)
+    b7.place(x=450, y=0)
+    b8.place(x=450, y=80)
 
     while True:
         window.update()

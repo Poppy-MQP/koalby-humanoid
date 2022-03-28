@@ -3,7 +3,6 @@ import time
 
 from Primitives import KoalbyPrimitive
 
-
 class ArmMirror(KoalbyPrimitive.Primitive):
 
     def __init__(self, leftArmGroup, rightArmGroup):
