@@ -15,7 +15,7 @@ robot = Robot()
 dance = Dance()
 armMirror = ArmMirror(robot.motors[0:3], robot.motors[4:7])  # Arm Mirror created with left and right arm motor groups
 
-# Add primitive to robot primitive list
+# Add primitives to robot primitive list
 robot.primitives.append(dance)
 robot.primitives.append(armMirror)
 
@@ -48,6 +48,7 @@ danceT = Thread(target=danceMeth)
 danceT.start()
 
 
+# Arm Mirror Thread
 def armMirrorMeth():
     print("Arm Mirror Thread Started")
     while True:
@@ -91,6 +92,7 @@ def UI():
         window.update_idletasks()
 
 
+# Start UI Thread
 UIThread = Thread(target=UI)
 UIThread.start()
 
