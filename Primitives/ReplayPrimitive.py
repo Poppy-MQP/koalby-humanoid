@@ -1,5 +1,5 @@
 import csv
-import KoalbyPrimitive
+from Primitives import KoalbyPrimitive
 import time
 
 
@@ -14,6 +14,7 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
         self.poseTime = 0.0
         self.poseDelay = 0.0
         self.motorPositionsDict = {}
+        self.isActive = False
         self.replayFilename = ""
 
     def playMotion(self):
@@ -53,3 +54,16 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
         motionFile.close()
         for m in self.Motors:
             m.compliantOnOff(0)  # set motors back to non-compliant for use elsewhere
+
+
+    def change(self):
+        if self.isActive:
+            self.isActive = False
+        else:
+            self.isActive = True
+
+    def setActive(self):
+        self.isActive = True
+
+    def notActive(self):
+        self.isActive = False

@@ -19,8 +19,8 @@ class ArmMirror(KoalbyPrimitive.Primitive):
         #else:
         #    self.masterArm = rightArmGroup
         #    self.followerArm = leftArmGroup
-        for motor in self.masterArm:  # set desired controller arm to be compliant for manual control
-            motor.compliantOnOff(1)
+
+
 
     def armMirror(self):
         masterPositions = list()
@@ -31,7 +31,11 @@ class ArmMirror(KoalbyPrimitive.Primitive):
             masterPositions.pop(0)
 
     def setActive(self):
+        for motor in self.masterArm:  # set desired controller arm to be compliant for manual control
+            motor.compliantOnOff(1)
         self.isActive = True
 
     def notActive(self):
+        for motor in self.masterArm:  # set desired controller arm to be compliant for manual control
+            motor.compliantOnOff(0)
         self.isActive = False

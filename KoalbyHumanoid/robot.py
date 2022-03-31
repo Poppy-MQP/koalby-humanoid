@@ -44,12 +44,12 @@ class Robot(object):
 
     def initialize(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
-        cmd = "1"
+        cmd = "1,"
         self.arduino_serial.send_command(cmd)
 
     def shutdown(self):
         """sends command to the arduino to shutdown all motors on the entire robot and turn their LEDs red"""
-        cmd = "100"
+        cmd = "100,"
         self.arduino_serial.send_command(cmd)
 
     def motorsInit(self):
@@ -122,3 +122,10 @@ class Robot(object):
     def close(self):
         # Can add other stuff here if we need to handle incomplete statement sending
         self.shutdown()
+
+    def addPrimitive(self, primitive):
+        self.primitives.append(primitive)
+
+    def removePrimitive(self, primitive):
+        self.primitives.remove(primitive)
+

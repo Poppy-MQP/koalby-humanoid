@@ -13,7 +13,7 @@ class Primitive:
     def __init__(self):
         self.motorPositionsDict = {}  # dictionary holding motorIDs and their relevant data
         self.sensorDict = {}  # dictionary holding sensorIDs and their relevant data
-        # self.isActive = isActive
+        self.isActive = False
 
     def getMotorDict(self):
         return self.motorPositionsDict
