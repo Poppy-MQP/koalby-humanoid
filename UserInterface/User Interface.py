@@ -19,15 +19,12 @@ replay = ReplayPrimitive(robot.motors)
 armMirror = ArmMirror(robot.motors[0:3], robot.motors[4:7])  # Arm Mirror created with left and right arm motor groups
 
 
-# Add primitives to robot primitive list
-# robot.primitives.append(dance)
-# robot.primitives.append(armMirror)
-# robot.primitives.append(replay)
-
 def init():
     for prim in robot.primitives:
         prim.notActive()
     robot.primitives.clear()
+    allButtonsOff()
+    time.sleep(0.5)
     robot.initialize()
 
 
@@ -35,6 +32,8 @@ def shutdown():
     for prim in robot.primitives:
         prim.notActive()
     robot.primitives.clear()
+    allButtonsOff()
+    time.sleep(0.5)
     robot.shutdown()
 
 
@@ -65,7 +64,7 @@ def danceSetup():
     if dance.isActive:
         robot.removePrimitive(dance)
         dance.isActive = False
-        b3.config(bg="red")
+        allButtonsOff()
     else:
         robot.addPrimitive(dance)
         dance.isActive = True
@@ -89,7 +88,7 @@ def armMirrorSetup():
     if armMirror.isActive:
         robot.removePrimitive(armMirror)
         armMirror.isActive = False
-        b4.config(bg="red")
+        allButtonsOff()
     else:
         robot.addPrimitive(armMirror)
         armMirror.isActive = True
@@ -116,49 +115,46 @@ def replaySetup(posTime, posDelay, filename):
     replay.replayFilename = filename
 
     if replay.isActive:
-        robot.removePrimitive(replay)
         replay.isActive = False
-        b5.config(bg="red")
-        b6.config(bg="red")
-        b7.config(bg="red")
-        b8.config(bg="red")
-        b9.config(bg="red")
-        b10.config(bg="red")
+        allButtonsOff()
+        robot.removePrimitive(replay)
+
 
     else:
-        robot.addPrimitive(replay)
         replay.isActive = True
+        robot.addPrimitive(replay)
+
 
 
 # Clap 0.2 0.1, Dab 0.1 0, Macerena 0.5 0.2, Shake 0.2 0 , Extend 0.5 0, Wave 0.3 0
 def clap():
-    replaySetup(0.5, 0.5, "clapCycle")
     b5.config(bg="green")
+    replaySetup(0.5, 0.5, "clapCycle")
 
 
 def dab():
-    replaySetup(0.3, 0.5, "dab")
     b6.config(bg="green")
+    replaySetup(0.3, 0.5, "dab")
 
 
 def macarena():
-    replaySetup(0.5, 1, "macarena")
     b7.config(bg="green")
+    replaySetup(0.5, 1, "macarena")
 
 
 def shake():
-    replaySetup(0.2, 0.5, "shakeRightHand")
     b10.config(bg="green")
+    replaySetup(0.2, 0.5, "shakeRightHand")
 
 
 def extend():
-    replaySetup(0.5, 0.5, "extendRightArm")
     b9.config(bg="green")
+    replaySetup(0.5, 0.5, "extendRightArm")
 
 
 def wave():
-    replaySetup(0.3, 0.5, "wave")
     b8.config(bg="green")
+    replaySetup(0.3, 0.5, "wave")
 
 
 # Start Replay Thread
@@ -174,18 +170,18 @@ def UI():
     window.geometry("800x500")
 
     # Make the buttons
-    b1 = Button(window, text="Initialize", command=init, activeforeground="black", activebackground="pink", padx=25, pady=25)
-    b2 = Button(window, text="Shutdown", command=shutdown, activeforeground="black", activebackground="pink", padx=25, pady=25)
-    b3 = Button(window, text="Dance Toggle", command=danceSetup, activeforeground="black", activebackground="pink", padx=25, pady=25)
-    b4 = Button(window, text="Mirror Toggle", command=armMirrorSetup, activeforeground="black", activebackground="pink", padx=25, pady=25)
+    b1 = Button(window, text="Initialize", command=init, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
+    b2 = Button(window, text="Shutdown", command=shutdown, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
+    b3 = Button(window, text="Dance Toggle", command=danceSetup, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
+    b4 = Button(window, text="Mirror Toggle", command=armMirrorSetup, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
 
     # Clap 0.2 0.1, Dab 0.1 0, Macerena 0.5 0.2, Shake 0.2 0 , Extend 0.5 0, Wave 0.3 0
-    b5 = Button(window, text="Clap Toggle", command=clap, activeforeground="black", activebackground="pink", padx=25, pady=25)
-    b6 = Button(window, text="Dab Toggle", command=dab, activeforeground="black", activebackground="pink", padx=25, pady=25)
-    b7 = Button(window, text="Macarena Toggle", command=macarena, activeforeground="black", activebackground="pink", padx=25, pady=25)
-    b8 = Button(window, text="Wave Toggle", command=wave, activeforeground="black", activebackground="pink", padx=25, pady=25)
-    b9 = Button(window, text="Extend Toggle", command=extend, activeforeground="black", activebackground="pink", padx=25, pady=25)
-    b10 = Button(window, text="Shake Toggle", command=shake, activeforeground="black", activebackground="pink", padx=25, pady=25)
+    b5 = Button(window, text="Clap Toggle", command=clap, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
+    b6 = Button(window, text="Dab Toggle", command=dab, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
+    b7 = Button(window, text="Macarena Toggle", command=macarena, bg="red", activeforeground="black", activebackground="green", padx=20, pady=25)
+    b8 = Button(window, text="Wave Toggle", command=wave, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
+    b9 = Button(window, text="Extend Toggle", command=extend, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
+    b10 = Button(window, text="Shake Toggle", command=shake, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
 
     # Set button locations
     b1.place(x=0, y=0)
@@ -203,6 +199,18 @@ def UI():
         window.update()
         window.update_idletasks()
 
+def allButtonsOff():
+    global b1, b2, b3, b4, b5, b6, b7, b8, b9, b10
+    b1.config(bg="red")
+    b2.config(bg="red")
+    b3.config(bg="red")
+    b4.config(bg="red")
+    b5.config(bg="red")
+    b6.config(bg="red")
+    b7.config(bg="red")
+    b8.config(bg="red")
+    b9.config(bg="red")
+    b10.config(bg="red")
 
 # Start UI Thread
 UIThread = Thread(target=UI)

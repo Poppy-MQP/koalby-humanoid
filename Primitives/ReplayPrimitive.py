@@ -26,8 +26,11 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
             csvRecordedPoses = [{k: int(v) for k, v in row.items()}
                                 for row in csv.DictReader(f, skipinitialspace=True)]  # parses selected csv file into list of poses
         for poseMotorPositionsDict in csvRecordedPoses:  # for each pose in the list of recorded poses
+            if not self.isActive:
+                break
             self.motorPositionsDict = poseMotorPositionsDict
             time.sleep(self.poseTime + self.poseDelay)
+        print("Done")
 
     def recordMotion(self):
         """
