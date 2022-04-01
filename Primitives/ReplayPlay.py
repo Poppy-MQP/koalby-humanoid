@@ -19,6 +19,7 @@ replay.poseTime = float(input("Enter pose time (seconds):")) + 0.005
 replay.poseDelay = float(input("Enter delay between poses (seconds):"))
 robot.poseTimeMillis = int((replay.poseTime - 0.005)*1000)
 replay.replayFilename = str(input("Input saved file name to play back:"))
+replay.isActive = True
 
 # must restart robot before playing back motion, or change the way prim manager operates (no while loop)
 robot.primitives.append(replay)
