@@ -30,8 +30,8 @@ class ReplayPrimitive(KoalbyPrimitive.Primitive):
                 break
             self.motorPositionsDict = poseMotorPositionsDict
             time.sleep(self.poseTime + self.poseDelay)
-        print("Done")
 
+    # TODO: make recordMotion based on motor groups for easier recording
     def recordMotion(self):
         """
         Records a series of manually positioned robot poses with a desired number of poses and saves them to a csv file

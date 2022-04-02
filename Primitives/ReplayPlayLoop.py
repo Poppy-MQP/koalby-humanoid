@@ -28,7 +28,7 @@ robot.primitives.append(replay)
 def Play():
     while True:
         replay.playMotion()
-        replay.replayFilename = str(input("Input saved file name to play back:"))
+        #replay.replayFilename = str(input("Input saved file name to play back:"))
 
 
 def Update():

@@ -129,32 +129,32 @@ def replaySetup(posTime, posDelay, filename):
 # Clap 0.2 0.1, Dab 0.1 0, Macerena 0.5 0.2, Shake 0.2 0 , Extend 0.5 0, Wave 0.3 0
 def clap():
     b5.config(bg="green")
-    replaySetup(0.5, 0.5, "clapCycle")
+    replaySetup(0.5, 0.5, "../Primitives/clapCycle")
 
 
 def dab():
     b6.config(bg="green")
-    replaySetup(0.3, 0.5, "dab")
+    replaySetup(0.3, 0.5, "../Primitives/dab")
 
 
 def macarena():
     b7.config(bg="green")
-    replaySetup(0.5, 1, "macarena")
+    replaySetup(0.5, 1, "../Primitives/macarena")
 
 
 def shake():
     b10.config(bg="green")
-    replaySetup(0.2, 0.5, "shakeRightHand")
+    replaySetup(0.2, 0.5, "../Primitives/shakeRightHand")
 
 
 def extend():
     b9.config(bg="green")
-    replaySetup(0.5, 0.5, "extendRightArm")
+    replaySetup(0.5, 0.5, "../Primitives/extendRightArm")
 
 
 def wave():
     b8.config(bg="green")
-    replaySetup(0.3, 0.5, "wave")
+    replaySetup(0.3, 0.5, "../Primitives/wave")
 
 
 # Start Replay Thread
