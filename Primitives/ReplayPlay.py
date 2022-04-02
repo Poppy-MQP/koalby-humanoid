@@ -3,7 +3,7 @@ from threading import Thread
 
 from Primitives.ReplayPrimitive import ReplayPrimitive
 
-sys.path.insert(0, '/home/pi/Documents/koalby-humanoid')
+sys.path.insert(0, 'home/pi/Documents/koalby-humanoid')
 
 from KoalbyHumanoid.robot import Robot
 
@@ -28,6 +28,9 @@ robot.primitives.append(replay)
 def Play():
     while True:
         replay.playMotion()
+        replay.poseTime = float(input("Enter pose time (seconds):")) + 0.005
+        replay.poseDelay = float(input("Enter delay between poses (seconds):"))
+        robot.poseTimeMillis = int((replay.poseTime - 0.005) * 1000)
         replay.replayFilename = str(input("Input saved file name to play back:"))
 
 
