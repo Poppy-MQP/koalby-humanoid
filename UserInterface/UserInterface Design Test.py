@@ -1,6 +1,11 @@
+'''
+The purpose of this file is to test what the UI will look like without any functionality.
+
+'''
+
 from tkinter import *
 
-global b1, b2, b3, b4, b5, b6, b7, b8, b9, b10
+# Create the Window Tkinter object
 window = Tk()
 window.geometry("800x500")
 
@@ -9,8 +14,6 @@ b1 = Button(window, text="Initialize", bg="red", activeforeground="black", activ
 b2 = Button(window, text="Shutdown", bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
 b3 = Button(window, text="Dance Toggle", bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
 b4 = Button(window, text="Mirror Toggle", bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
-
-# Clap 0.2 0.1, Dab 0.1 0, Macerena 0.5 0.2, Shake 0.2 0 , Extend 0.5 0, Wave 0.3 0
 b5 = Button(window, text="Clap Toggle", bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
 b6 = Button(window, text="Dab Toggle", bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
 b7 = Button(window, text="Macarena Toggle", bg="red", activeforeground="black", activebackground="green", padx=20, pady=25)

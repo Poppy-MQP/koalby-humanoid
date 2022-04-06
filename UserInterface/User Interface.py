@@ -12,28 +12,31 @@ from KoalbyHumanoid.robot import Robot
 
 # Start Script
 print("Start User Interface")
-b1, b2, b3, b4, b5, b6, b7, b8, b9, b10 = Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button()  # create Buttons
+
+b1, b2, b3, b4, b5, b6, b7, b8, b9, b10 = Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button(), Button()  # Create Global buttons so all functions can use them
 robot = Robot()
 dance = Dance()
 replay = ReplayPrimitive(robot.motors)
 armMirror = ArmMirror(robot.motors[0:3], robot.motors[4:7])  # Arm Mirror created with left and right arm motor groups
 
 
+# Initialize the Robot Command
 def init():
-    for prim in robot.primitives:
+    for prim in robot.primitives:  # Set all primitives in robot list to not active
         prim.notActive()
-    robot.primitives.clear()
-    allButtonsOff()
-    time.sleep(0.5)
+    robot.primitives.clear()  # Clear the robot list of primitives
+    allButtonsOff()  # Set all buttons to the color red
+    time.sleep(0.5)  # Delay so the primitive manager can have time to stop sending commands to prevent a serial timeout error
     robot.initialize()
 
 
+# Shutdown the robot (Turn off all motors)
 def shutdown():
-    for prim in robot.primitives:
+    for prim in robot.primitives:  # Set all primitives in robot list to not active
         prim.notActive()
-    robot.primitives.clear()
-    allButtonsOff()
-    time.sleep(0.5)
+    robot.primitives.clear()  # Clear the robot list of primitives
+    allButtonsOff()  # Set all buttons to the color red
+    time.sleep(0.5)  # Delay so the primitive manager can have time to stop sending commands to prevent a serial timeout error
     robot.shutdown()
 
 
@@ -41,7 +44,7 @@ def shutdown():
 def primitiveUpdateMeth():
     print("Primitive Manager Thread Started")
     while True:
-        if dance.isActive or armMirror.isActive or replay.isActive:
+        if dance.isActive or armMirror.isActive or replay.isActive:  # If any of the primitives are active then the thread will run the primitive manager update function in robot
             robot.PrimitiveManagerUpdate()
 
 
@@ -75,6 +78,8 @@ def danceSetup():
 danceT = Thread(target=danceMeth)
 danceT.start()
 
+'''
+*** This method does not work on the Python side, but does work on the Arduino side
 
 # Arm Mirror Thread
 def armMirrorMeth():
@@ -98,6 +103,7 @@ def armMirrorSetup():
 # Start Arm Mirror Thread
 armMirrorT = Thread(target=armMirrorMeth)
 armMirrorT.start()
+'''
 
 
 # Replay Thread
@@ -105,10 +111,11 @@ def replayMeth():
     print("Replay Thread Started")
     while True:
         if replay.isActive:
-            replay.playMotion()
+            replay.playMotion()  # Replay
 
 
 def replaySetup(posTime, posDelay, filename):
+    # Setup the replay object's parameters
     replay.poseTime = posTime + 0.005
     replay.poseDelay = posDelay
     robot.poseTimeMillis = int((replay.poseTime - 0.005) * 1000)
@@ -116,17 +123,23 @@ def replaySetup(posTime, posDelay, filename):
 
     if replay.isActive:
         replay.isActive = False
-        allButtonsOff()
-        robot.removePrimitive(replay)
+        allButtonsOff()  # Turn buttons red
+        robot.removePrimitive(replay)  # Remove primitive from robot list
 
 
     else:
         replay.isActive = True
         robot.addPrimitive(replay)
 
+
 # Start Replay Thread
 replayT = Thread(target=replayMeth)
 replayT.start()
+
+'''
+*** There needs to be a function linked to each button in the UI and the Tkinter library does not allow functions in the button command to pass fields.
+'''
+
 
 # Clap 0.2 0.1, Dab 0.1 0, Macerena 0.5 0.2, Shake 0.2 0 , Extend 0.5 0, Wave 0.3 0
 def clap():
@@ -159,13 +172,12 @@ def wave():
     replaySetup(0.3, 0.5, "wave")
 
 
-
-
-
 # User Interface
 
 def UI():
-    global b1, b2, b3, b4, b5, b6, b7, b8, b9, b10
+    global b1, b2, b3, b4, b5, b6, b7, b8, b9, b10  # Global Variable for each button so other methods can control button fields.
+
+    # Create the Window Tkinter object
     window = Tk()
     window.geometry("800x500")
 
@@ -173,9 +185,7 @@ def UI():
     b1 = Button(window, text="Initialize", command=init, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
     b2 = Button(window, text="Shutdown", command=shutdown, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
     b3 = Button(window, text="Dance Toggle", command=danceSetup, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
-    b4 = Button(window, text="Mirror Toggle", command=armMirrorSetup, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
-
-    # Clap 0.2 0.1, Dab 0.1 0, Macerena 0.5 0.2, Shake 0.2 0 , Extend 0.5 0, Wave 0.3 0
+    # b4 = Button(window, text="Mirror Toggle", command=armMirrorSetup, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
     b5 = Button(window, text="Clap Toggle", command=clap, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
     b6 = Button(window, text="Dab Toggle", command=dab, bg="red", activeforeground="black", activebackground="green", padx=25, pady=25)
     b7 = Button(window, text="Macarena Toggle", command=macarena, bg="red", activeforeground="black", activebackground="green", padx=20, pady=25)
@@ -199,6 +209,7 @@ def UI():
         window.update()
         window.update_idletasks()
 
+
 def allButtonsOff():
     global b1, b2, b3, b4, b5, b6, b7, b8, b9, b10
     b1.config(bg="red")
@@ -212,9 +223,12 @@ def allButtonsOff():
     b9.config(bg="red")
     b10.config(bg="red")
 
+
 # Start UI Thread
 UIThread = Thread(target=UI)
 UIThread.start()
 
+
+# Infinite loop so all threads will continue to run off of main thread
 while True:
     pass
