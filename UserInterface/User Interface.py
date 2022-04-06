@@ -124,7 +124,9 @@ def replaySetup(posTime, posDelay, filename):
         replay.isActive = True
         robot.addPrimitive(replay)
 
-
+# Start Replay Thread
+replayT = Thread(target=replayMeth)
+replayT.start()
 
 # Clap 0.2 0.1, Dab 0.1 0, Macerena 0.5 0.2, Shake 0.2 0 , Extend 0.5 0, Wave 0.3 0
 def clap():
@@ -157,9 +159,7 @@ def wave():
     replaySetup(0.3, 0.5, "wave")
 
 
-# Start Replay Thread
-replayT = Thread(target=replayMeth)
-replayT.start()
+
 
 
 # User Interface
