@@ -28,10 +28,7 @@ robot.primitives.append(replay)
 def Play():
     while True:
         replay.playMotion()
-        replay.poseTime = float(input("Enter pose time (seconds):")) + 0.005
-        replay.poseDelay = float(input("Enter delay between poses (seconds):"))
-        robot.poseTimeMillis = int((replay.poseTime - 0.005) * 1000)
-        replay.replayFilename = str(input("Input saved file name to play back:"))
+        #replay.replayFilename = str(input("Input saved file name to play back:"))
 
 
 def Update():
